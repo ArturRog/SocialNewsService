@@ -25,7 +25,7 @@ SECRET_KEY = 'r9)o@w(x^nu)52n$b+#!-xtqy71@9us0=lj8o4&gn#1=7i3ti-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [u'socialnewsservice.herokuapp.com']
 
 
 # Application definition
