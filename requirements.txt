@@ -1,7 +1,2 @@
-cycler==0.10.0
-pyparsing==2.1.10
-python-dateutil==2.6.0
-pytz==2016.7
-six==1.10.0
-virtualenv==15.1.0
 Django==1.10.3
+gunicorn==19.6.0
