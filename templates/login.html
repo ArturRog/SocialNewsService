@@ -1,0 +1,20 @@
+{#<html>#}
+{#<head>#}
+{#    <title>Login page</title>#}
+{#</head>#}
+{#<body>#}
+{#{% if form.errors %}#}
+{#    <p class="text-warning">Your username or password didn't match.</p>#}
+{#{% endif %}#}
+{##}
+{#<form role="form" class="form-horizontal" method="post" action="{% url home %}">#}
+{#    {% csrf_token %}#}
+{#    {{ form }}#}
+{#    <input class="btn btn-primary" type="submit" value="Login"/>#}
+{#    <input name="next" type="hidden" value="{{ next }}"/>#}
+{##}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+LOGIN PAGE
