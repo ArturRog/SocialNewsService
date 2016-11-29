@@ -1,0 +1,13 @@
+
+
+<div class="list-group">
+    {% for post in posts %}
+
+        <a class="list-group-item" href="#">
+        {{ post }}:
+
+        </a>
+    {% empty %}
+    <span class="list-group-item">No posts available.</span>
+    {% endfor %}
+</div>
