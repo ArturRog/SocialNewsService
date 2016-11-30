@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url
 from django.contrib import admin
-from main.views import home
+from main.views import home,register
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -27,7 +27,8 @@ urlpatterns = [
                   url(r'^$', home, name='home'),
                   # url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
                   url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-                  url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout')
+                  url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
+                  url(r'^register/$', register, name='register')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
