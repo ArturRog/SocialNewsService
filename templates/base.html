@@ -46,8 +46,12 @@
                 <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"/></a></li>
 
                 {% if user.is_authenticated %}
-                    <li><a href="" style="font-size: 120%;"><span class="glyphicon glyphicon-plus" aria-hidden="true"/>
-                        Dodaj</a></li>
+                    <li>
+                        <a href="{% url 'new_post' %}" style="font-size: 120%;">
+                            Dodaj
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                        </a>
+                    </li>
                     <li>
                         <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse"
                            href="{% url 'login' %}" aria-expanded="false" aria-controls="nav-collapse2">
