@@ -25,7 +25,8 @@ SECRET_KEY = 'r9)o@w(x^nu)52n$b+#!-xtqy71@9us0=lj8o4&gn#1=7i3ti-'
 DEBUG = True
 DEFAULT_CHARSET = 'utf-8'
 
-ALLOWED_HOSTS = [u'socialnewsservice.herokuapp.com', u'localhost']
+ALLOWED_HOSTS = [u'socialnewsservice.herokuapp.com',
+                 u'localhost', u'127.0.0.1']
 
 # Application definition
 
