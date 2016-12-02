@@ -8,6 +8,11 @@ from .forms import RegisterForm
 
 def home(request):
     posts = Post.objects.all()
+    # for post in posts:
+    #     post.post_comments = post.get_post_comments()
+    #     for post_comment in post.post_comments:
+    #         post_comment.children_posts = post_comment.get_children_posts()
+
     context = {'posts': posts}
     return render(request, "main/home.html", context)
 
