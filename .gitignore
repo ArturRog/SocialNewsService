@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 *.pyc
 myvenv
-db.sqlite3
 .DS_Store
 .idea
 
@@ -17,7 +16,6 @@ db.sqlite3
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
