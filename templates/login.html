@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
     {% if form.errors %}
@@ -17,19 +17,19 @@
                         <div class="panel-body">
                             <form method="post" action="/login">
                                 {% csrf_token %}
-
-                                <p class="bs-component">
-                                <table>
-                                    <tr>
-                                        <td>{{ form.username.label_tag }}</td>
-                                        <td>{{ form.username }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ form.password.label_tag }}</td>
-                                        <td>{{ form.password }}</td>
-                                    </tr>
-                                </table>
-                                </p>
+                                {{ form | crispy }}
+{#                                <p class="bs-component">#}
+{#                                <table>#}
+{#                                    <tr>#}
+{#                                        <td>{{ form.username.label_tag }}</td>#}
+{#                                        <td>{{ form.username }}</td>#}
+{#                                    </tr>#}
+{#                                    <tr>#}
+{#                                        <td>{{ form.password.label_tag }}</td>#}
+{#                                        <td>{{ form.password }}</td>#}
+{#                                    </tr>#}
+{#                                </table>#}
+{#                                </p>#}
                                 <p class="bs-component" style="padding-top: 15px">
                                 <center>
                                     <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">

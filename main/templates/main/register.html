@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
     {% if form.errors %}
@@ -18,14 +18,15 @@
                         <div class="panel-body">
                             <form method="post" action="">
                                 {% csrf_token %}
-                                <table>
-                                    {% for field in form %}
-                                        <tr>
-                                            <td> {{ field.label_tag }}</td>
-                                            <td>{{ field }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
+                                {{ form | crispy }}
+{#                                <table>#}
+{#                                    {% for field in form %}#}
+{#                                        <tr>#}
+{#                                            <td> {{ field.label_tag }}</td>#}
+{#                                            <td>{{ field }}</td>#}
+{#                                        </tr>#}
+{#                                    {% endfor %}#}
+{#                                </table>#}
                                 <p class="bs-component" style="padding-top: 15px">
                                     <button class="btn btn-lg btn-info btn-block" type="submit">
                                         Register
