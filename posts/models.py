@@ -32,6 +32,6 @@ class Comment(models.Model):
     author = models.ForeignKey(User, related_name="comment_author")
     publication_date = models.DateTimeField(auto_now_add=True)
 
-    # def get_children_posts(self):
-    #     return Comment.objects.filter(parent=self)
+    def __str__(self):
+        return '{0}: "{1}" >> {2}'.format(self.id, self.body, self.parent)
 
