@@ -1,43 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <script type="text/javascript" src="/static/js/posts.js" ></script>
+    <script type="text/javascript" src="/static/js/posts.js"></script>
 
     {% for post in posts %}
         <div class="media" style="margin: 15px; background-color: rgb(248,248,248); padding: 5px;">
-                <div class="media-left media-middle" style="font-size: 17px; ">
-                    <a href="{% url 'upvote_news' post.id %}"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true" style="color: green"/></a>
-                    <span> {{ post.votes }}</span>
-                    <a href="{% url 'downvote_news' post.id %}"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="color: red"/></a>
-                </div>
-                <div class="media   -left media-top">
-                    <a href="#">
-                        <img src="{{ post.picture.url }}" height="70px" >
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">{{ post.title }}</h4>
-                    {{ post.body }}
-                </div>
+            <div class="media-left media-middle" style="font-size: 17px; ">
 
-                <div class="comments" id={{ post.id }}>
-                    <a class="add-comment" href="#" >
-                        Dodaj komentarz
-                    </a>
-                    <a class="show-comments" href="#" >
-                        Wyświetl komentarze
-                    </a>
-                    <div class="comments-container">
-                        Tu jest miejsce na komentarze
-                    </div>
-                </div>
-
+                <a href="{% url 'upvote_news' post.id %}"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true" style="color: green"/></a>
+                <span><b>{{ post.votes }}</b></span>
+                <a href="{% url 'downvote_news' post.id %}"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="color: red"/></a>
+            </div>
+            <div class="media-left media-top">
+                <a href="#">
+                    <img src="{{ post.picture.url }}" height="70px">
+                </a>
             </div>
             <div class="media-body">
                 <h4 class="media-heading">{{ post.title }}</h4>
                 {{ post.body }}
             </div>
 
+            <div class="comments" id="{{ post.id }}" style="margin-left: 110px" >
+                <a class="add-comment" href="#">
+                    Dodaj komentarz
+                </a>
+                <a class="show-comments" href="#">
+                    Wyświetl komentarze
+                </a>
+                <div class="comments-container">
+                    Tu jest miejsce na komentarze
+                </div>
+            </div>
         </div>
     {% empty %}
         <span class="list-group-item">No posts available.</span>
