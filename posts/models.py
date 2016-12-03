@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 
@@ -15,9 +18,18 @@ class Post(models.Model):
     picture = models.ImageField(upload_to='images', blank=True, null=True, default='default_image.svg')
     original_url = models.URLField()
     category = models.CharField(max_length=20)
+    votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
 
     def get_post_comments(self):
         return Comment.objects.filter(post=self, parent=None)
+
+    def upvote(self):
+        self.votes += 1
+        self.save()
+        return self.votes
+
+    def downvote(self):
+        return "aaaaaaaaaa"
 
     def __str__(self):
         return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category, self.author,
@@ -32,6 +44,6 @@ class Comment(models.Model):
     author = models.ForeignKey(User, related_name="comment_author")
     publication_date = models.DateTimeField(auto_now_add=True)
 
+
     # def get_children_posts(self):
     #     return Comment.objects.filter(parent=self)
-
