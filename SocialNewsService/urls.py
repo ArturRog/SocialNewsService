@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url
 from django.contrib import admin
-from main.views import home,register
+from main.views import home,register,upvote_news,downvote_news, category_filter
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -35,6 +35,10 @@ urlpatterns = [
                   url(r'^home/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
                   url(r'^home/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments')
 
+                  url(r'^new_post/$', new_post, name='new_post'),
+                  url(r'^upvote_news/(?P<pk>\d+)/$', upvote_news, name='upvote_news'),
+                  url(r'^downvote_news/(?P<pk>\d+)/$', downvote_news, name='downvote_news'),
+                  url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter')
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,9 +1,12 @@
-from django.shortcuts import render,redirect
+# -*- coding: utf-8 -*-
+
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-from posts.models import Post
+from posts.models import Post, Category
 from .forms import RegisterForm
+from django.shortcuts import get_object_or_404
 
 
 def home(request):
@@ -14,6 +17,29 @@ def home(request):
     #         post_comment.children_posts = post_comment.get_children_posts()
 
     context = {'posts': posts}
+    return render(request, "main/home.html", context)
+
+
+@login_required()
+def upvote_news(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    post.votes += 1
+    post.save()
+    return redirect("/")
+
+
+@login_required()
+def downvote_news(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    post.votes -= 1
+    post.save()
+    return redirect("/")
+
+
+def category_filter(request, pk):
+    posts = Post.objects.filter(category__id=pk)
+    category = Category.objects.get(id=pk)
+    context = {'posts': posts, 'category': category}
     return render(request, "main/home.html", context)
 
 

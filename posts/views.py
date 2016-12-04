@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from posts.forms import PostForm
