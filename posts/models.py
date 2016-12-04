@@ -9,6 +9,17 @@ import datetime
 
 
 # Create your models here.
+class Category(models.Model):
+    category_name = models.CharField(max_length=30)
+    description = models.CharField(max_length=300, default="Default category description.")
+    is_original = models.BooleanField(default=False)  # true dla podstawowych kategorii
+
+    def get_category_description(self):
+        return self.description
+
+    def __str__(self):
+        return "{0} - {1}".format(self.category_name, self.description).encode('ascii', errors='replace')
+
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
@@ -17,22 +28,14 @@ class Post(models.Model):
     publication_date = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to='images', blank=True, null=True, default='default_image.svg')
     original_url = models.URLField()
-    category = models.CharField(max_length=20)
+    category = models.ForeignKey(Category)
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
 
     def get_post_comments(self):
         return Comment.objects.filter(post=self, parent=None)
 
-    def upvote(self):
-        self.votes += 1
-        self.save()
-        return self.votes
-
-    def downvote(self):
-        return "aaaaaaaaaa"
-
     def __str__(self):
-        return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category, self.author,
+        return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category.category_name, self.author,
                                                  self.publication_date.strftime("%d/%m/%y")).encode('ascii',
                                                                                                     errors='replace')
 
