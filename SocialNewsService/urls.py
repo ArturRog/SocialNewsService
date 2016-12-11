@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from posts.views import new_post, show_comments
+from posts.views import new_post, show_comments, new_category
 
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
@@ -36,6 +36,7 @@ urlpatterns = [
                   url(r'^home/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments'),
 
                   url(r'^new_post/$', new_post, name='new_post'),
+                  url(r'^new_category/$', new_category, name='new_category'),
                   url(r'^upvote_news/(?P<pk>\d+)/$', upvote_news, name='upvote_news'),
                   url(r'^downvote_news/(?P<pk>\d+)/$', downvote_news, name='downvote_news'),
                   url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter')
