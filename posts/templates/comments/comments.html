@@ -1,0 +1,24 @@
+<div class="list-group">
+
+    {% for comment in comments %}
+
+        <div class="comment" id={{ comment.id }}>
+
+            <div>{{ comment.body }}</div>
+
+            <a href="#" class="add-sub-comments">
+                Odpowiedz
+            </a>
+            <a href="#" class="show-sub-comments">
+                Wyświetl odpowiedzi
+            </a>
+
+            <div class="sub-comments-container">
+
+            </div>
+        </div>
+
+    {% empty %}
+        <div>Brak komentarzy.</div>
+    {% endfor %}
+</div>

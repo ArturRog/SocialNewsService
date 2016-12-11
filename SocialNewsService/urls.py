@@ -21,8 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from posts.views import new_post
-
+from posts.views import new_post, show_comments
 
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
@@ -31,6 +30,11 @@ urlpatterns = [
                   url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
                   url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
                   url(r'^register/$', register, name='register'),
+                  url(r'^new_post/$', new_post, name='new_post'),
+
+                  url(r'^home/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
+                  url(r'^home/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments')
+
                   url(r'^new_post/$', new_post, name='new_post'),
                   url(r'^upvote_news/(?P<pk>\d+)/$', upvote_news, name='upvote_news'),
                   url(r'^downvote_news/(?P<pk>\d+)/$', downvote_news, name='downvote_news'),
