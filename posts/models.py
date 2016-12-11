@@ -14,6 +14,7 @@ class Category(models.Model):
     description = models.CharField(max_length=300, default="Default category description.")
     is_original = models.BooleanField(default=False)  # true dla podstawowych kategorii
 
+    #TODO usunac
     def get_category_description(self):
         return self.description
 
