@@ -16,13 +16,13 @@ Including another URLconf
 
 from django.conf.urls import url
 from django.contrib import admin
-from main.views import home,register,upvote_news,downvote_news, category_filter, profile
+from main.views import home,register,upvote_news,downvote_news, category_filter
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from posts.views import new_post, show_comments, new_category, search_category
-
+from user_profile.views import profile
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
                   url(r'^$', home,  name='home'),
