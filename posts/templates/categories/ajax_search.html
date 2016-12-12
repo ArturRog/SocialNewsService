@@ -1,0 +1,6 @@
+{% for category in categories %}
+    <li class="list-group-item"><a href="{% url 'category_filter' category.id %}">{{ category.category_name }}</a></li>
+{% empty %}
+    <li class="list-group-item">Nie ma takiej kategorii.</li>
+
+{% endfor %}

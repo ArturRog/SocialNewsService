@@ -6,7 +6,7 @@ from posts.forms import PostForm, CategoryForm
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from posts.models import Post, Comment
+from posts.models import Post, Comment, Category
 
 
 def new_post(request):
@@ -35,6 +35,16 @@ def new_category(request):
     else:
         category_form = CategoryForm()
     return render(request, "categories/new_category.html", {'form': category_form})
+
+
+def search_category(request):
+    if request.method == 'POST':
+        search_text = request.POST['search_text']
+        categories = Category.objects.filter(category_name__contains=search_text)
+    else:
+        categories = Category.objects.all()
+
+    return render(request, "categories/ajax_search.html", {'categories': categories})
 
 
 def show_comments(request, post_id, comment_id=None):
