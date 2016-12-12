@@ -19,23 +19,23 @@
                     </div>
                     <div class="navbar-collapse collapse sidebar-navbar-collapse">
                         <ul class="nav navbar-nav" id="sidenav01">
-                            <li class="active">
-                                <a href="#" data-toggle="collapse" data-target="#toggleDemo0" data-parent="#sidenav01"
-                                   class="collapsed">
-                                    <h4>
-                                        Control Panel
-                                        <br>
-                                        <small>IOSDSV <span class="caret"></span></small>
-                                    </h4>
-                                </a>
-                                <div class="collapse" id="toggleDemo0" style="height: 0px;">
-                                    <ul class="nav nav-list">
-                                        <li><a href="#">ProfileSubMenu1</a></li>
-                                        <li><a href="#">ProfileSubMenu2</a></li>
-                                        <li><a href="#">ProfileSubMenu3</a></li>
-                                    </ul>
-                                </div>
-                            </li>
+{#                            <li class="active">#}
+{#                                <a href="#" data-toggle="collapse" data-target="#toggleDemo0" data-parent="#sidenav01"#}
+{#                                   class="collapsed">#}
+{#                                    <h4>#}
+{#                                        Control Panel#}
+{#                                        <br>#}
+{#                                        <small>IOSDSV <span class="caret"></span></small>#}
+{#                                    </h4>#}
+{#                                </a>#}
+{#                                <div class="collapse" id="toggleDemo0" style="height: 0px;">#}
+{#                                    <ul class="nav nav-list">#}
+{#                                        <li><a href="#">ProfileSubMenu1</a></li>#}
+{#                                        <li><a href="#">ProfileSubMenu2</a></li>#}
+{#                                        <li><a href="#">ProfileSubMenu3</a></li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                            </li>#}
                             <li>
                                 <a href="#" data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01"
                                    class="collapsed">
@@ -50,7 +50,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="#" data-toggle="collapse" data-target="#toggleDemo2" data-parent="#sidenav01"
                                    class="collapsed">
                                     <span class="glyphicon glyphicon-inbox"></span> Submenu 2 <span
@@ -65,9 +65,10 @@
                                 </div>
                             </li>
                             <li><a href="#"><span class="glyphicon glyphicon-lock"></span> Normalmenu</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-calendar"></span> WithBadges <span
+                            <li><a href="#"><span class="glyphicon glyphicon-calendar"></span> Wiadomości <span
                                     class="badge pull-right">42</span></a></li>
-                            <li><a href=""><span class="glyphicon glyphicon-cog"></span> PreferencesMenu</a></li>
+                            <li><a href=""><span class="glyphicon glyphicon-cog"></span> Ustawienia</a></li>
+                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-off"></span> Wyloguj</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>

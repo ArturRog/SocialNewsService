@@ -11,3 +11,4 @@ def profile(request):
     current_user = request.user
 
     return render(request, "profile/profile.html", {'user': current_user})
+
