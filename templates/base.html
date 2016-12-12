@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,16 +48,18 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-            <li >
-                <div class="form-group" style="width: 130px;">
-                    <input type="text" class="form-control" id="search" name="search" placeholder="Szukaj kategorii">
+                <li>
+                    <div class="form-group" style="width: 130px;">
+                        <input type="text" class="form-control" id="search" name="search"
+                               placeholder="Szukaj kategorii">
 
-                </div>
-                {% csrf_token %}
-                <ul id="search-results" class="list-group" style="position: absolute; background-color: rgb(248,248,248); text-align: center; width: 130px;">
+                    </div>
+                    {% csrf_token %}
+                    <ul id="search-results" class="list-group"
+                        style="position: absolute; background-color: rgb(248,248,248); text-align: center; width: 130px;">
 
-                </ul>
-            </li>
+                    </ul>
+                </li>
 
                 {% if user.is_authenticated %}
                     <li>
@@ -75,13 +77,25 @@
                         </div>
                     </li>
                     <li>
-                        <a href="{% url 'login' %}" class="btn btn-default btn-outline btn-circle collapsed"><span
-                                class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ user.username }}</a>
+                        <div class="dropdown">
+                            <button class="btn btn-default btn-outline btn-circle collapsed" type="button"
+                                    id="dropdownMenu2"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                    style="font-size: 120%;"><span
+                                    class="glyphicon glyphicon-user" aria-hidden="true"
+                                    id="dropdownMenu2"></span>
+                                {{ user.username }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <li><a href="{% url 'profile' %}">Profil</a></li>
+                                <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+                            </ul>
+                        </div>
                     </li>
                 {% else %}
                     <li>
-                        <a href="{% url 'login' %}" class="btn btn-default btn-outline btn-circle collapsed"><span
-                                class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ user.username }}</a>
+                        <a href="{% url 'login' %}"
+                           class="btn btn-default btn-outline btn-circle collapsed">Logowanie</a>
                     </li>
                 {% endif %}
             </ul>

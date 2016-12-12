@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url
 from django.contrib import admin
-from main.views import home,register,upvote_news,downvote_news, category_filter
+from main.views import home,register,upvote_news,downvote_news, category_filter, profile
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -30,6 +30,7 @@ urlpatterns = [
                   url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
                   url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
                   url(r'^register/$', register, name='register'),
+                  url(r'^profile/$', profile, name='profile'),
                   url(r'^new_post/$', new_post, name='new_post'),
 
                   url(r'^home/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),

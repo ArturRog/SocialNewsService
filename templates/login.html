@@ -23,8 +23,10 @@
                                     <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                 </center>
                                 <center><h5>OR</h5></center>
-                                <a class="btn btn-lg btn-info btn-block" data-toggle="collapse"
-                                   href="{% url 'register' %}" aria-expanded="false" aria-controls="nav-collapse2">Register</a>
+                                <a href="{% url 'register' %}"
+                                   class="btn btn-lg btn-info btn-block collapsed">Register</a>
+                                {#                                <a class="btn btn-lg btn-info btn-block" data-toggle="collapse"#}
+                                {#                                   href="{% url 'register' %}" aria-expanded="false" aria-controls="nav-collapse2">Register</a>#}
 
                                 </p>
                                 <input type="hidden" name="next" value="{{ next }}"/>
