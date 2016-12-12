@@ -14,6 +14,11 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/posts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+
 </head>
 
 <body>
@@ -43,25 +48,40 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"/></a></li>
+            <li >
+                <div class="form-group" style="width: 130px;">
+                    <input type="text" class="form-control" id="search" name="search" placeholder="Szukaj kategorii">
+
+                </div>
+                {% csrf_token %}
+                <ul id="search-results" class="list-group" style="position: absolute; background-color: rgb(248,248,248); text-align: center; width: 130px;">
+
+                </ul>
+            </li>
 
                 {% if user.is_authenticated %}
                     <li>
-                        <a href="{% url 'new_post' %}" style="font-size: 120%;">
-                            Dodaj
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
-                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                    style="font-size: 120%;">
+                                Dodaj
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{% url 'new_post' %}">Nowy news</a></li>
+                                <li><a href="{% url 'new_category' %}">Nowa kategoria</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li>
-                        <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse"
-                           href="{% url 'login' %}" aria-expanded="false" aria-controls="nav-collapse2">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ user.username }}
-                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-default btn-outline btn-circle collapsed"><span
+                                class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ user.username }}</a>
                     </li>
                 {% else %}
                     <li>
-                        <a class="btn btn-default btn-outline btn-circle collapsed" data-toggle="collapse"
-                           href="{% url 'login' %}" aria-expanded="false" aria-controls="nav-collapse2">Log in</a>
+                        <a href="{% url 'login' %}" class="btn btn-default btn-outline btn-circle collapsed"><span
+                                class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ user.username }}</a>
                     </li>
                 {% endif %}
             </ul>
@@ -76,3 +96,5 @@
 
 </body>
 </html>
+
+
