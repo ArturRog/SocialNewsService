@@ -33,7 +33,7 @@ urlpatterns = [
                   url(r'^new_post/$', new_post, name='new_post'),
 
                   url(r'^home/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
-                  url(r'^home/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments')
+                  url(r'^home/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments'),
 
                   url(r'^new_post/$', new_post, name='new_post'),
                   url(r'^upvote_news/(?P<pk>\d+)/$', upvote_news, name='upvote_news'),
