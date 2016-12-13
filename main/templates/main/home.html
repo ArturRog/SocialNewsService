@@ -1,12 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-{#    <script type="text/javascript" src="{% static 'js/posts.js' %}"></script>#}
+    {#    <script type="text/javascript" src="{% static 'js/posts.js' %}"></script>#}
 
     {% if category.description|length > 0 %}
-        <div style="background-color: rgb(248,248,248);">
-            <h3 class="panel-heading" style="text-align: center">{{ category.description }}</h3>
+
+        <div style="background-color: rgb(248,248,248);text-align: center;">
+
+            <h3 class="panel-heading" style="display: inline-block">{{ category.description }}</h3>
+            <a href="{% url 'add_to_favorites' category.id %}"> <h2 id="menu-toggle" style="display: inline-block;"><span href="{% url 'login' %}" class="glyphicon glyphicon-star-empty"
+                                                                      aria-hidden="true"></span></h2></a>
         </div>
+        <script>
+            $('#menu-toggle').click(function () {
+                $(this).find('span').toggleClass('glyphicon glyphicon-star').toggleClass('glyphicon glyphicon-star-empty');
+            });
+        </script>
     {% endif %}
 
 
