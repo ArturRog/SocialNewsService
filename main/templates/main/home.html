@@ -45,7 +45,7 @@
             </a>{% endcomment %}
             <div class="comments" id="p{{ post.id }}">
                 <div class="pull-right">
-                    <button class="show-comments btn btn-info btn-xs">komentarze: {{ post.comments_number }}</button>
+                    <button class="{% if post.comments_number > 0 %}show-comments{% endif %} btn btn-info btn-xs">komentarze: {{ post.comments_number }}</button>
                     <button class="add-comment btn btn-info btn-xs">odpowiedz</button>
                     <button class="btn btn-warning btn-xs">zgłoś</button>
                 </div>

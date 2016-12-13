@@ -19,7 +19,7 @@ def home(request):
     #     for post_comment in post.post_comments:
     #         post_comment.children_posts = post_comment.get_children_posts()
     for post in posts:
-        post.comments_number = count_comments(posts)
+        post.comments_number = count_comments(post)
     context = {'posts': posts}
     return render(request, "main/home.html", context)
 
