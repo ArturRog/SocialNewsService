@@ -39,26 +39,23 @@
                 {{ post.body }}
             </div>
 
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#{{ post.id }}"
+{% comment %}            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#p{{ post.id }}"
                aria-expanded="false" aria-controls="collapseExample" style="margin-left: 110px">
-                Komentarze
-            </a>
-            <div class="collapse" id="{{ post.id }}">
-                <div class="comments" id="{{ post.id }}" style="margin-left: 110px">
-                    <a class="add-comment" href="#">
-                        Dodaj komentarz
-                    </a>
-                    <a class="show-comments" href="#">
-                        Wyświetl komentarze
-                    </a>
-                    <div class="comments-container">
-                        Tu jest miejsce na komentarze
-                    </div>
+                komentarze: {{ post.comments_number }}
+            </a>{% endcomment %}
+            <div class="comments" id="p{{ post.id }}">
+                <div class="pull-right">
+                    <button class="show-comments btn btn-info btn-xs">komentarze: {{ post.comments_number }}</button>
+                    <button class="add-comment btn btn-info btn-xs">odpowiedz</button>
+                    <button class="btn btn-warning btn-xs">zgłoś</button>
                 </div>
+                <div style="clear: both; margin-bottom: 20px"></div>
+                <div class="comments-container"></div>
             </div>
         </div>
     {% empty %}
         <span class="list-group-item">Nie ma zadnych newsow.</span>
     {% endfor %}
+
 
 {% endblock content %}

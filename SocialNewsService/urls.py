@@ -21,8 +21,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from posts.views import new_post, show_comments, new_category, search_category
 from user_profile.views import profile, my_categories, add_to_favorites
+from posts.views import new_post, show_comments, new_category, search_category, new_comment
+
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
                   url(r'^$', home,  name='home'),
@@ -35,8 +36,10 @@ urlpatterns = [
                   url(r'^my_categories/(?P<pk>\d+)/$', my_categories, name='my_categories'),
                   url(r'^new_post/$', new_post, name='new_post'),
 
-                  url(r'^home/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
-                  url(r'^home/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments'),
+                  url(r'^comments/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
+                  url(r'^comments/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments'),
+                  url(r'^comments/new_comment/(?P<post_id>[0-9]+)/$', new_comment, name='new_comment'),
+                  url(r'^comments/new_comment/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', new_comment, name='new_comment'),
 
                   url(r'^new_category/$', new_category, name='new_category'),
                   url(r'^search_category/$', search_category, name='search_category'),

@@ -54,3 +54,12 @@ class CategoryForm(ModelForm):
             'category_name': _('Wprowadz nazwe dla nowej kategorii (bez polskich znakow).'),
             'description': _('Krotki opis nowej kategorii.'),
         }
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']
+        labels = {
+            'body': _('komentarz')
+        }
