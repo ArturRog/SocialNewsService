@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from posts.models import Post, Category
 from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
+from posts.views import count_comments
 
 
 def home(request):
@@ -15,7 +16,8 @@ def home(request):
     #     post.post_comments = post.get_post_comments()
     #     for post_comment in post.post_comments:
     #         post_comment.children_posts = post_comment.get_children_posts()
-
+    for post in posts:
+        post.comments_number = count_comments(posts)
     context = {'posts': posts}
     return render(request, "main/home.html", context)
 

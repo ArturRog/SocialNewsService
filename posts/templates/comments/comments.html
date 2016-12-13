@@ -2,23 +2,36 @@
 
     {% for comment in comments %}
 
-        <div class="comment" id={{ comment.id }}>
+        <div style="margin-left: 30px" class="comment" id="c{{ comment.id }}">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="#" class="comment-author">{{ comment.author }}</a>
+                    <span class="comment-publication_date">{{ comment.publication_date }}</span>
+                </div>
 
-            <div>{{ comment.body }}</div>
+                <div class="comment-body panel-body">
+                    <div>{{ comment.body }}</div>
 
-            <a href="#" class="add-sub-comments">
-                Odpowiedz
-            </a>
-            <a href="#" class="show-sub-comments">
-                Wyświetl odpowiedzi
-            </a>
+    {% comment %}            <div class="comment-author">
+                    {{ comment.author }}
+                </div>{% endcomment %}
+                <div class="pull-right">
+                {% if comment.child_number > 0 %}
+                    <button class="show-sub-comments btn btn-info btn-xs ">opdowiedzi: {{ comment.child_number }}</button>
+                {% endif %}
+                    <button class="add-sub-comment btn btn-info btn-xs">odpowiedz</button>
 
-            <div class="sub-comments-container">
+                    <button class="btn btn-warning btn-xs">zgłoś</button>
+
+                </div>
+                </div>
 
             </div>
+
+            <div class="sub-comments-container" style="display: none"></div>
         </div>
 
     {% empty %}
-        <div>Brak komentarzy.</div>
+        <div style="margin-left: 10px">Brak komentarzy.</div>
     {% endfor %}
 </div>

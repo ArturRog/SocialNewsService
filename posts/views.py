@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
+import sys
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
-from posts.forms import PostForm, CategoryForm
+from posts.forms import PostForm, CategoryForm, CommentForm
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -51,5 +51,35 @@ def show_comments(request, post_id, comment_id=None):
     # post = Post.objects.filter(id=post_id)
     # comment = None if comment_id is None else Comment.objects.filter(id=comment_id)
     comments = Comment.objects.filter(post=post_id, parent=comment_id).order_by('-publication_date')
+    for comment in comments:
+        comment.child_number = count_comments(post_id, comment)
     context = {'comments': comments}
     return render(request, "comments/comments.html", context)
+
+
+def count_comments(post, comment=None):
+    if comment is None:
+        return Comment.objects.filter(post=post).count()
+    else:
+        count = 0
+        comments = Comment.objects.filter(post=post, parent=comment)
+        count += comments.count()
+        for sub_comment in comments:
+            count += count_comments(post, sub_comment)
+        return count
+
+
+def new_comment(request, post_id, comment_id=None):
+    current_user = request.user
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST, request.FILES)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = current_user
+            comment.post = Post.objects.filter(id=post_id)[0]
+            comment.parent = None if comment_id is None else Comment.objects.filter(id=comment_id)[0]
+            comment.save()
+            return HttpResponseRedirect('/')
+    else:
+        comment_form = CommentForm()
+    return render(request, "comments/new_comment.html", {'form': comment_form})
