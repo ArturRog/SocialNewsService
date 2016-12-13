@@ -19,14 +19,6 @@
                             <form method="post" action="">
                                 {% csrf_token %}
                                 {{ form | crispy }}
-{#                                <table>#}
-{#                                    {% for field in form %}#}
-{#                                        <tr>#}
-{#                                            <td> {{ field.label_tag }}</td>#}
-{#                                            <td>{{ field }}</td>#}
-{#                                        </tr>#}
-{#                                    {% endfor %}#}
-{#                                </table>#}
                                 <p class="bs-component" style="padding-top: 15px">
                                     <button class="btn btn-lg btn-info btn-block" type="submit">
                                         Register

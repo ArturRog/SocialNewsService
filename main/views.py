@@ -3,8 +3,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 # Create your views here.
 from posts.models import Post, Category
+from user_profile.models import UserProfile
 from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
 from posts.views import count_comments
@@ -50,6 +52,9 @@ def register(request):
         form = RegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            user_profile = UserProfile()
+            user_profile.user = User.objects.get(username=form.data['username'])
+            user_profile.save()
             return redirect('login')
     else:
         form = RegisterForm
