@@ -2,14 +2,15 @@ $( document ).ready(function() {
 
     var post_id;
     var comment_id;
-    function set_post_id(element) { post_id = $(element).closest('.comments').attr('id'); }
+    function set_post_id(element) { post_id = $(element).closest('.post-navigation').attr('id'); }
     function get_html_post_id() { return '#'+post_id; }
     function get_post_id() { return post_id.replace('p', ''); }
     function set_comment_id(element) { comment_id = $(element).closest('.comment').attr('id'); }
     function get_html_comment_id() { return '#'+comment_id; }
     function get_comment_id() { return comment_id.replace('c', ''); }
 
-    $('.comments')
+    $('#posts-container')
+        .load('posts/show_posts/')
         .on('click', '.add-comment', function() {
             set_post_id(this);
             new_comment();
