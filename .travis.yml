@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+  - pypy
+  
+# command to install dependencies
+install: "pip install -r requirements.txt"
+
+before_script:
+  – python manage.py syncdb –migrate –noinput
+# command to run tests
+script:
+  – python manage.py test
