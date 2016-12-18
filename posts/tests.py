@@ -157,4 +157,3 @@ class CommentTestCase(TestCase):
         self.assertEqual(response.status_code, HttpResponseNotAllowed.status_code)
         is_not_added = Comment.objects.filter(post=self.post, parent=self.parent2, body=body).count() == 0
         self.assertTrue(is_not_added)
-
