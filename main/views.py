@@ -9,18 +9,14 @@ from posts.models import Post, Category
 from user_profile.models import UserProfile
 from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
-from posts.views import count_comments
+from posts.views import count_comments, show_posts
+
+from django.template.loader import render_to_string
 
 
 def home(request):
-    posts = Post.objects.all()
-    # for post in posts:
-    #     post.post_comments = post.get_post_comments()
-    #     for post_comment in post.post_comments:
-    #         post_comment.children_posts = post_comment.get_children_posts()
-    for post in posts:
-        post.comments_number = count_comments(post)
-    context = {'posts': posts}
+    posts_response = show_posts(request)
+    context = {'posts_response': posts_response}
     return render(request, "main/home.html", context)
 
 

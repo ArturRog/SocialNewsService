@@ -48,6 +48,14 @@ def new_post(request):
     return render(request, "posts/new_post.html", {'form': post_form})
 
 
+def show_posts(request):
+    posts = Post.objects.all()
+    for post in posts:
+        post.comments_number = count_comments(post)
+    context = {'posts': posts}
+    return render(request, "posts/posts.html", context)
+
+
 def new_comment(request, post_id, comment_id=None):
     current_user = request.user
     if not current_user.is_authenticated:

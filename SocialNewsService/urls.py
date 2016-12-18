@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from user_profile.views import profile, my_categories, add_to_favorites
-from posts.views import new_post, show_comments, new_category, search_category, new_comment
+from posts.views import new_post, show_comments, new_category, search_category, new_comment, show_posts
 
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
@@ -35,6 +35,8 @@ urlpatterns = [
                   url(r'^add_to_favorites/(?P<pk>\d+)/$', add_to_favorites, name='add_to_favorites'),
                   url(r'^my_categories/(?P<pk>\d+)/$', my_categories, name='my_categories'),
                   url(r'^new_post/$', new_post, name='new_post'),
+
+                  url(r'^posts/show_posts/$', show_posts, name='show_posts'),
 
                   url(r'^comments/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
                   url(r'^comments/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments'),
