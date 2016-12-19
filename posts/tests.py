@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.http import HttpResponse
 from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotFound
 from django.test import TestCase
 from posts.models import Category, Post, Comment
 from posts.views import count_comments
@@ -35,14 +37,33 @@ class CategoryTestCase(TestCase):
         is_not_added = Category.objects.all().count() == self.category_count
         self.assertTrue(is_not_added)
 
-    def test_search_category(self):
-        self.category = Category.objects.create(category_name='Category2', description='desc', owner=self.user)
+    def test_search_category_existing_name_like(self):
+        new_category = Category.objects.create(category_name='Category2', description='desc', owner=self.user)
         self.url = '/search_category/'
         self.form = {
             'search_text': 'Category'
         }
         response = self.client.post(self.url, self.form)
-        list(response.context['categories'])
+        response_categories = list(response.context['categories'])
+
+        self.category_count = 2
+        self.assertEqual(len(response_categories), self.category_count)
+
+        category_sorted = list()
+        category_sorted.append(self.category)
+        category_sorted.append(new_category)
+        category_sorted.sort(key=lambda x: x.category_name)
+        self.assertEqual(response_categories, category_sorted)
+
+    def test_search_category_no_existing_name_like(self):
+        self.url = '/search_category/'
+        self.form = {
+            'search_text': 'bleblebleble there is no name like it!'
+        }
+        response = self.client.post(self.url, self.form)
+        response_categories = list(response.context['categories'])
+        self.category_count = 0
+        self.assertEqual(len(response_categories), self.category_count)
 
 
 class PostTestCase(TestCase):
@@ -71,6 +92,14 @@ class PostTestCase(TestCase):
         self.assertEqual(response.status_code, HttpResponseNotAllowed.status_code)
         is_not_added = Post.objects.all().count() == 0
         self.assertTrue(is_not_added)
+
+    def test_show_posts(self):
+        # TODO: test show posts for filters
+        pass
+
+    def test_show_posts_wrong_data(self):
+        # TODO: test
+        pass
 
 
 class CommentTestCase(TestCase):
@@ -114,24 +143,24 @@ class CommentTestCase(TestCase):
     def test_show_comments(self):
         c = self.client
         response = c.post('/comments/show-comments/'+str(self.post.id)+'/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HttpResponse.status_code)
         response = c.post('/comments/show-comments/' + str(self.post.id) + '/' + str(self.parent1.id) + '/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HttpResponse.status_code)
         response = c.post('/comments/show-comments/'+str(self.post.id)+'/-1/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
         response = c.post('/comments/show-comments/-1/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
         response = c.post('/comments/show-comments/-1/-1')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
 
         parents_sorted = list()
         parents_sorted.append(self.parent1)
         parents_sorted.append(self.parent2)
-        parents_sorted = sorted(parents_sorted, key=lambda x: x.publication_date, reverse=True)
+        parents_sorted.sort(key=lambda x: x.publication_date, reverse=True)
         children_sorted = list()
         children_sorted.append(self.sub1)
         children_sorted.append(self.sub2)
-        children_sorted = sorted(children_sorted, key=lambda x: x.publication_date, reverse=True)
+        children_sorted.sort(key=lambda x: x.publication_date, reverse=True)
         response = c.post('/comments/show-comments/'+str(self.post.id)+'/')
         self.assertTrue(list(response.context['comments']) == parents_sorted)
         response = c.post('/comments/show-comments/'+str(self.post.id)+'/'+str(self.parent1.id)+'/')

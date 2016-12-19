@@ -21,25 +21,6 @@ class PostForm(ModelForm):
             'original_url': _('Link do oryginalnego zrodla z ktorego pochodzi news.'),
             'category': _('Kategoria, do ktorej nalezy news.'),
         }
-        # labels = {
-        #     'title': _('Tytuł'),
-        #     'body': _('Treść'),
-        #     'picture': _('Zdjęcie'),
-        #     'original_url': _('Źródło newsa'),
-        #     'category': _('Kategoria'),
-        #
-        # }
-        # help_texts = {
-        #     'title': _('Zwięzły tytuł newsa.'),
-        #     'body': _('Treść newsa.'),
-        #     'original_url': _('Link do oryginalnego źródła z którego pochodzi news.'),
-        #     'category': _('Kategoria, do której należy news.'),
-        # }
-        # error_messages = {
-        #     'name': {
-        #         'max_length': _("This writer's name is too long."),
-        #     },
-        # }
 
 
 class CategoryForm(ModelForm):

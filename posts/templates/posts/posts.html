@@ -1,3 +1,6 @@
+{% block contetn %}
+<div id="add-comment-form" class="navbar-fixed-bottom col-sm-4 container"></div>
+
 {% for post in posts %}
     <div class="panel panel-default">
 
@@ -46,3 +49,4 @@
 {% empty %}
     <span class="list-group-item">Nie ma zadnych newsow.</span>
 {% endfor %}
+{% endblock %}
