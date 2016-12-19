@@ -25,7 +25,6 @@ def new_category(request):
 def search_category(request):
     if request.method == 'POST':
         search_text = request.POST['search_text']
-        # TODO: sortowanie po popularności
         categories = Category.objects.filter(category_name__contains=search_text).order_by('category_name')
     else:
         categories = Category.objects.all()

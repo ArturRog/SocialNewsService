@@ -1,18 +1,23 @@
 {#-*- coding: ISO-8859-2 -*-#}
-{% extends "base.html" %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="col-md-4 col-md-offset-4">
+<div>
     {% if user.is_authenticated %}
-        <form action="" method="post">
+        <form action="{{ request.path }}" method="post">
             {% csrf_token %}
             {{ form | crispy}}
-            <input type="submit" value="Dodaj" />
+
+            <button type="submit" class="btn btn-success" aria-label="Left Align">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+            <button id="add-comment-close-button" type="button" class="btn btn-danger" aria-label="Left Align">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
         </form>
     {% else %}
         <p> Brak dostępu !</p>
     {% endif %}
 </div>
-
 {% endblock content %}

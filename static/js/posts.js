@@ -31,6 +31,11 @@ $( document ).ready(function() {
             show_sub_comments();
         });
 
+/*    $( '#add-comment-form' )
+        .on('click', '#add-comment-close-button', function () {
+            alert('close()');
+        });*/
+
     function show_comments() {
         var element_id = get_html_post_id();
         var url = '/comments/show-comments/'+get_post_id();
@@ -41,15 +46,14 @@ $( document ).ready(function() {
 
     function new_comment() {
         var url = '/comments/new_comment/'+get_post_id();
-        var $loadElement = $( '#new-comment' );
-        window.location.replace(url);
-        // $loadElement.load(url);
+        var $element = $( '#add-comment-form' );
+        $element.load( url );
     }
 
     function new_sub_comment() {
         var url = '/comments/new_comment/'+get_post_id()+'/'+get_comment_id();
-        var $loadElement = $( '#new-comment' );
-        window.location.replace(url);
+        var $element = $( '#add-comment-form' );
+        $element.load( url );
     }
 
     function show_sub_comments() {
@@ -64,7 +68,7 @@ $( document ).ready(function() {
         if( $loadElement.is(':empty') ) {
             $loadElement.css( "display", "none" ) ;
             $loadElement.load(url, function () {
-                 $loadElement.slideToggle('slow');
+                 $loadElement.slideDown('slow');
             });
         } else {
             $loadElement.slideToggle('medium');
