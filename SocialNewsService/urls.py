@@ -16,17 +16,19 @@ Including another URLconf
 
 from django.conf.urls import url
 from django.contrib import admin
-from main.views import home,register,upvote_news,downvote_news, category_filter
+from main.views import home, register, upvote_news, downvote_news, category_filter
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from user_profile.views import profile, my_categories, add_to_favorites
-from posts.views import new_post, show_comments, new_category, search_category, new_comment, show_posts
+from posts.views import new_post, show_comments, new_comment, show_posts
+from category.views import new_category, search_category
 
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
-                  url(r'^$', home,  name='home'),
+                  url(r'^$', home, name='home'),
+                  url(r'^(?P<filtr>\w+)/$', home, name='home'),
                   # url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
                   url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
                   url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
@@ -39,16 +41,18 @@ urlpatterns = [
                   url(r'^posts/show_posts/$', show_posts, name='show_posts'),
 
                   url(r'^comments/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
-                  url(r'^comments/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments, name='show_comments'),
+                  url(r'^comments/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments,
+                      name='show_comments'),
                   url(r'^comments/new_comment/(?P<post_id>[0-9]+)/$', new_comment, name='new_comment'),
-                  url(r'^comments/new_comment/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', new_comment, name='new_comment'),
+                  url(r'^comments/new_comment/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', new_comment,
+                      name='new_comment'),
 
                   url(r'^new_category/$', new_category, name='new_category'),
                   url(r'^search_category/$', search_category, name='search_category'),
                   url(r'^upvote_news/(?P<pk>\d+)/$', upvote_news, name='upvote_news'),
                   url(r'^downvote_news/(?P<pk>\d+)/$', downvote_news, name='downvote_news'),
-                  url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter')
-
+                  url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter'),
+                  url(r'^category/(?P<pk>\d+)/(?P<filtr>\w+)/$', category_filter, name='category_filter')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

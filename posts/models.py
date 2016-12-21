@@ -6,18 +6,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
+from category.models import Category
 
 
 # Create your models here.
 
-class Category(models.Model):
-    category_name = models.CharField(max_length=30)
-    description = models.CharField(max_length=300)
-    is_original = models.BooleanField(default=False)  # true dla podstawowych kategorii
-    owner = models.ForeignKey(User, related_name="category_owner", blank=True, null=True, default=None)  # kto zalozyl, dla podstawowych None
 
-    def __str__(self):
-        return "{0} - {1}".format(self.category_name, self.description).encode('ascii', errors='replace')
 
 
 class Post(models.Model):
@@ -29,9 +23,6 @@ class Post(models.Model):
     original_url = models.URLField()
     category = models.ForeignKey(Category)
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
-
-    def get_post_comments(self):
-        return Comment.objects.filter(post=self, parent=None)
 
     def __str__(self):
         return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category.category_name, self.author,
@@ -47,6 +38,4 @@ class Comment(models.Model):
     publication_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '{0}: "{1}" >> {2}'.format(self.id, self.body, self.parent)
-
-
+        return 'Autor: {0} id {1}: "{2}" >> {3}'.format(self.author, self.id, self.body, self.parent)

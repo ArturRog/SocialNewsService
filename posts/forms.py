@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.forms import ModelForm
-from posts.models import Post, Comment, Category
+from posts.models import Post, Comment
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -20,20 +20,6 @@ class PostForm(ModelForm):
         help_texts = {
             'original_url': _('Link do oryginalnego zrodla z ktorego pochodzi news.'),
             'category': _('Kategoria, do ktorej nalezy news.'),
-        }
-
-
-class CategoryForm(ModelForm):
-    class Meta:
-        model = Category
-        fields = ['category_name', 'description']
-        labels = {
-            'category_name': _('Nazwa kategorii'),
-            'description': _('Opis kategorii'),
-        }
-        help_texts = {
-            'category_name': _('Wprowadz nazwe dla nowej kategorii (bez polskich znakow).'),
-            'description': _('Krotki opis nowej kategorii.'),
         }
 
 

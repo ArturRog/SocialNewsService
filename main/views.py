@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 # Create your views here.
-from posts.models import Post, Category
+from posts.models import Post
+from category.models import Category
 from user_profile.models import UserProfile
 from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
@@ -14,9 +15,11 @@ from posts.views import count_comments, show_posts
 from django.template.loader import render_to_string
 
 
-def home(request):
+def home(request, filtr=None):
     posts_response = show_posts(request)
     context = {'posts_response': posts_response}
+    if filtr:
+        return redirect('/', context)
     return render(request, "main/home.html", context)
 
 
@@ -36,10 +39,13 @@ def downvote_news(request, pk):
     return redirect("/")
 
 
-def category_filter(request, pk):
+def category_filter(request, pk, filtr=None):
     posts = Post.objects.filter(category__id=pk)
     category = Category.objects.get(id=pk)
     context = {'posts': posts, 'category': category}
+    if filtr:
+        # request.path = '/category/' + pk + '/'
+        return redirect('/category/'+pk, context)
     return render(request, "main/home.html", context)
 
 

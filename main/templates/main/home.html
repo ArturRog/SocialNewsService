@@ -2,13 +2,30 @@
 {% load static %}
 {% block content %}
 
+    <nav class="navbar navbar-default ">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a>Najlepsze:</a></li>
+                <li><a href="  {{ request.get_full_path }}dzien ">24h</a></li>
+                <li><a href="  {{ request.get_full_path }}tydzien ">Tydzień</a></li>
+                <li><a href="  {{ request.get_full_path }}miesiac ">Miesiąc</a></li>
+                <li><a>{{ request.get_full_path }}</a></li>
+                <li><a href="  {{ request.get_full_path }}najnowsze ">Najnowsze</a>Najnowsze</li>
+
+
+            </ul>
+        </div>
+
+    </nav>
+
     {% if category.description|length > 0 %}
 
         <div style="background-color: rgb(248,248,248);text-align: center;">
 
             <h3 class="panel-heading" style="display: inline-block">{{ category.description }}</h3>
-            <a href="{% url 'add_to_favorites' category.id %}"> <h2 id="menu-toggle" style="display: inline-block;"><span href="{% url 'login' %}" class="glyphicon glyphicon-star-empty"
-                                                                      aria-hidden="true"></span></h2></a>
+            <a href="{% url 'add_to_favorites' category.id %}"><h2 id="menu-toggle" style="display: inline-block;"><span
+                    href="{% url 'login' %}" class="glyphicon glyphicon-star-empty"
+                    aria-hidden="true"></span></h2></a>
         </div>
         <script>
             $('#menu-toggle').click(function () {

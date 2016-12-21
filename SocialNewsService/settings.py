@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main',
     'posts',
     'user_profile',
+    'category',
     'crispy_forms',
 ]
 
