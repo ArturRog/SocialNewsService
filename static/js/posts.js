@@ -9,8 +9,9 @@ $( document ).ready(function() {
     function get_html_comment_id() { return '#'+comment_id; }
     function get_comment_id() { return comment_id.replace('c', ''); }
 
+
     $('#posts-container')
-        .load('posts/show_posts/')
+        .load('/posts/show_posts/')
         .on('click', '.add-comment', function() {
             set_post_id(this);
             new_comment();
@@ -29,6 +30,12 @@ $( document ).ready(function() {
             set_post_id(this);
             set_comment_id(this);
             show_sub_comments();
+        })
+        .on('click', '#add-comment-close-button', function () {
+            var $element = $( '#add-comment-form ');
+            $element.slideUp(function () {
+                $element.empty();
+            });
         });
 
 /*    $( '#add-comment-form' )
@@ -47,13 +54,17 @@ $( document ).ready(function() {
     function new_comment() {
         var url = '/comments/new_comment/'+get_post_id();
         var $element = $( '#add-comment-form' );
-        $element.load( url );
+        $element.load( url, function () {
+            $element.slideDown();
+        } );
     }
 
     function new_sub_comment() {
         var url = '/comments/new_comment/'+get_post_id()+'/'+get_comment_id();
         var $element = $( '#add-comment-form' );
-        $element.load( url );
+        $element.load( url, function () {
+            $element.slideDown();
+        } );
     }
 
     function show_sub_comments() {

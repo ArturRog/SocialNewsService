@@ -40,9 +40,11 @@ def downvote_news(request, pk):
 
 
 def category_filter(request, pk, filtr=None):
-    posts = Post.objects.filter(category__id=pk)
+    # posts = Post.objects.filter(category__id=pk)
     category = Category.objects.get(id=pk)
-    context = {'posts': posts, 'category': category}
+    # context = {'posts': posts, 'category': category}
+    posts_response = show_posts(request, 1, category=None)
+    context = {'posts_response': posts_response, 'category': category}
     if filtr:
         # request.path = '/category/' + pk + '/'
         return redirect('/category/'+pk, context)

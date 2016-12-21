@@ -39,6 +39,7 @@ urlpatterns = [
                   url(r'^new_post/$', new_post, name='new_post'),
 
                   url(r'^posts/show_posts/$', show_posts, name='show_posts'),
+                  url(r'^posts/show_posts/(?P<page_number>[0-9]+)/$', show_posts, name='show_posts'),
 
                   url(r'^comments/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
                   url(r'^comments/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments,
