@@ -47,7 +47,7 @@ def new_post(request):
     return render(request, "posts/new_post.html", {'form': post_form})
 
 
-def show_posts(request):
+def show_posts(request, page_number=None, category=None):
     posts = Post.objects.all()
     for post in posts:
         post.comments_number = count_comments(post)
@@ -70,7 +70,12 @@ def new_comment(request, post_id, comment_id=None):
             return HttpResponseRedirect('/')
     else:
         comment_form = CommentForm()
-    return render(request, "comments/new_comment.html", {'form': comment_form})
+    context = {
+        'form': comment_form,
+        'post': Post.objects.filter(id=post_id).first(),
+        'comment': Comment.objects.filter(id=comment_id).first()
+    }
+    return render(request, "comments/new_comment.html", context)
 
 
 def show_comments(request, post_id, comment_id=None):
