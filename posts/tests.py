@@ -3,13 +3,13 @@ from django.http import HttpResponse
 from django.http import HttpResponseNotAllowed
 from django.http import HttpResponseNotFound
 from django.test import TestCase
-from posts.models import Category, Post, Comment
+from posts.models import Post, Comment
+from category.models import Category
 from posts.views import count_comments
 from django.contrib.auth.models import User
 
 
 class CategoryTestCase(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
         self.category = Category.objects.create(category_name='Category1', description='desc', owner=self.user)
@@ -67,10 +67,10 @@ class CategoryTestCase(TestCase):
 
 
 class PostTestCase(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-        self.category = Category.objects.create(category_name='Category for test comments', description='description', owner=self.user)
+        self.category = Category.objects.create(category_name='Category for test comments', description='description',
+                                                owner=self.user)
         self.new_post_url = '/new_post/'
         self.new_post_form = {
             'title': 'title',
@@ -103,13 +103,17 @@ class PostTestCase(TestCase):
 
 
 class CommentTestCase(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-        self.category = Category.objects.create(category_name='Category for test comments', description='description', owner=self.user)
-        self.post = Post.objects.create(title='Post for test comments', body='Post body', author=self.user, picture=None, original_url='https://docs.djangoproject.com/en/1.10/topics/testing/', category=self.category, votes=200)
+        self.category = Category.objects.create(category_name='Category for test comments', description='description',
+                                                owner=self.user)
+        self.post = Post.objects.create(title='Post for test comments', body='Post body', author=self.user,
+                                        picture=None,
+                                        original_url='https://docs.djangoproject.com/en/1.10/topics/testing/',
+                                        category=self.category, votes=200)
         self.parent1 = Comment.objects.create(post=self.post, parent=None, body='Test parent comment', author=self.user)
-        self.parent2 = Comment.objects.create(post=self.post, parent=None, body='Test parent comment 2', author=self.user)
+        self.parent2 = Comment.objects.create(post=self.post, parent=None, body='Test parent comment 2',
+                                              author=self.user)
         self.sub1 = Comment.objects.create(post=self.post, parent=self.parent1, body='sub 1', author=self.user)
         self.sub2 = Comment.objects.create(post=self.post, parent=self.parent1, body='sub 2', author=self.user)
         self.parent_1_comment_count = 2
@@ -123,11 +127,13 @@ class CommentTestCase(TestCase):
 
     def test_comment_count_after_new_sub_comments(self):
         for i in range(10):
-            Comment.objects.create(post=self.post, parent=self.parent1, body='Test parent comment ' + str(i), author=self.user)
+            Comment.objects.create(post=self.post, parent=self.parent1, body='Test parent comment ' + str(i),
+                                   author=self.user)
             self.parent_1_comment_count += 1
             self.all_comments_count += 1
         for i in range(4):
-            Comment.objects.create(post=self.post, parent=self.parent2, body='Test parent comment ' + str(i), author=self.user)
+            Comment.objects.create(post=self.post, parent=self.parent2, body='Test parent comment ' + str(i),
+                                   author=self.user)
             self.parent_2_comment_count += 1
             self.all_comments_count += 1
         self.assertEqual(count_comments(self.post), self.all_comments_count)
@@ -142,11 +148,11 @@ class CommentTestCase(TestCase):
 
     def test_show_comments(self):
         c = self.client
-        response = c.post('/comments/show-comments/'+str(self.post.id)+'/')
+        response = c.post('/comments/show-comments/' + str(self.post.id) + '/')
         self.assertEqual(response.status_code, HttpResponse.status_code)
         response = c.post('/comments/show-comments/' + str(self.post.id) + '/' + str(self.parent1.id) + '/')
         self.assertEqual(response.status_code, HttpResponse.status_code)
-        response = c.post('/comments/show-comments/'+str(self.post.id)+'/-1/')
+        response = c.post('/comments/show-comments/' + str(self.post.id) + '/-1/')
         self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
         response = c.post('/comments/show-comments/-1/')
         self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
@@ -161,15 +167,15 @@ class CommentTestCase(TestCase):
         children_sorted.append(self.sub1)
         children_sorted.append(self.sub2)
         children_sorted.sort(key=lambda x: x.publication_date, reverse=True)
-        response = c.post('/comments/show-comments/'+str(self.post.id)+'/')
+        response = c.post('/comments/show-comments/' + str(self.post.id) + '/')
         self.assertTrue(list(response.context['comments']) == parents_sorted)
-        response = c.post('/comments/show-comments/'+str(self.post.id)+'/'+str(self.parent1.id)+'/')
+        response = c.post('/comments/show-comments/' + str(self.post.id) + '/' + str(self.parent1.id) + '/')
         self.assertTrue(list(response.context['comments']) == children_sorted)
 
     def test_new_comment_user_logged_id(self):
         c = self.client
         c.force_login(self.user)
-        url = '/comments/new_comment/'+str(self.post.id)+'/'+str(self.parent2.id)+'/'
+        url = '/comments/new_comment/' + str(self.post.id) + '/' + str(self.parent2.id) + '/'
         body = 'body of new_sub_comment'
         form_data = {'body': body}
         c.post(url, form_data)

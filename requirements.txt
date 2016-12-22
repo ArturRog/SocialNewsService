@@ -1,8 +1,8 @@
 dj-database-url==0.4.1
 Django==1.10.3
+django-autocomplete-light==3.2.1
+django-crispy-forms==1.6.1
 gunicorn==19.6.0
+Pillow==3.4.2
 psycopg2==2.6.2
 whitenoise==3.2.2
-pillow==3.4.2
-django-crispy-forms==1.6.1
-django-autocomplete-light==3.2.1
