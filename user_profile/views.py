@@ -26,7 +26,7 @@ def profile(request):
 def my_categories(request, pk):
     context = menu_context(request)
 
-    posts = Post.objects.filter(category__id=pk)
+    posts = Post.objects.filter(category__id=pk).order_by('-publication_date')
     context.update({'posts': posts})
     return render(request, "profile/profile.html", context)
 

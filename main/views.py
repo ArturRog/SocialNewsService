@@ -11,15 +11,33 @@ from user_profile.models import UserProfile
 from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
 from posts.views import count_comments, show_posts
-
+from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 
 
+def post_filter(posts, filtr):
+    if filtr == 'dzien':
+        posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=1)).order_by('-votes')
+    elif filtr == 'tydzien':
+        posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=7)).order_by('-votes')
+    elif filtr == 'miesiac':
+        posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=30)).order_by('-votes')
+    elif filtr == 'najnowsze':
+        posts = posts.order_by('-publication_date')
+
+    return posts
+
+
 def home(request, filtr=None):
-    posts_response = show_posts(request)
-    context = {'posts_response': posts_response}
+    # posts_response = show_posts(request)
+    # context = {'posts_response': posts_response}
+    posts = Post.objects.all()
+
     if filtr:
-        return redirect('/', context)
+        posts = post_filter(posts, filtr)
+        request.path = "/"
+
+    context = {'posts': posts}
     return render(request, "main/home.html", context)
 
 
@@ -40,14 +58,16 @@ def downvote_news(request, pk):
 
 
 def category_filter(request, pk, filtr=None):
-    # posts = Post.objects.filter(category__id=pk)
+    posts = Post.objects.filter(category__id=pk)
     category = Category.objects.get(id=pk)
-    # context = {'posts': posts, 'category': category}
-    posts_response = show_posts(request, 1, category=None)
-    context = {'posts_response': posts_response, 'category': category}
+    # posts_response = show_posts(request, 1, category=None)
+    # context = {'posts_response': posts_response, 'category': category}
+
     if filtr:
-        # request.path = '/category/' + pk + '/'
-        return redirect('/category/'+pk, context)
+        posts = post_filter(posts, filtr)
+        request.path = "/category/" + pk + '/'
+    context = {'posts': posts, 'category': category}
+
     return render(request, "main/home.html", context)
 
 

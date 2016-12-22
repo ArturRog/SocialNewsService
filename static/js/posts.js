@@ -11,7 +11,7 @@ $( document ).ready(function() {
 
 
     $('#posts-container')
-        .load('/posts/show_posts/')
+        // .load('/posts/show_posts/')
         .on('click', '.add-comment', function() {
             set_post_id(this);
             new_comment();

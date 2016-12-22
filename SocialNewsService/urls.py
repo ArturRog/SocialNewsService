@@ -28,7 +28,7 @@ from category.views import new_category, search_category
 urlpatterns = [
                   url(r'^admin/', admin.site.urls),
                   url(r'^$', home, name='home'),
-                  url(r'^(?P<filtr>\w+)/$', home, name='home'),
+                  url(r'^cat-(?P<filtr>\w+)/$', home, name='home'),
                   # url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
                   url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
                   url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
@@ -53,7 +53,7 @@ urlpatterns = [
                   url(r'^upvote_news/(?P<pk>\d+)/$', upvote_news, name='upvote_news'),
                   url(r'^downvote_news/(?P<pk>\d+)/$', downvote_news, name='downvote_news'),
                   url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter'),
-                  url(r'^category/(?P<pk>\d+)/(?P<filtr>\w+)/$', category_filter, name='category_filter')
+                  url(r'^category/(?P<pk>\d+)/cat-(?P<filtr>\w+)/$', category_filter, name='category_filter'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
