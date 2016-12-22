@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from posts.models import Category, Post
+from posts.models import Comment, Post
+from category.models import Category
 from user_profile.models import UserProfile
 
 
@@ -12,13 +13,17 @@ def menu_context(request):
     categories = Category.objects.filter(owner=current_user)
     user_profile = UserProfile.objects.get(user=current_user)
     fav_categories = user_profile.favorite_categories.all()
-    context = {'current_user': current_user, 'categories': categories, 'fav_categories': fav_categories}
+    reputation = user_profile.reputation
+    comments = Comment.objects.filter(author=current_user)
+    posts = Post.objects.filter(author=current_user)
+    context = {'current_user': current_user, 'categories': categories, 'fav_categories': fav_categories,
+               'reputation': reputation, 'comments': comments, 'user_profile': user_profile, 'posts': posts}
     return context
 
 
 @login_required()
 def profile(request):
-    return render(request, "userprofile.html", menu_context(request))
+    return render(request, "profile/settings.html", menu_context(request))
 
 
 # wyswietla posty z naszej kategorii
@@ -28,7 +33,20 @@ def my_categories(request, pk):
 
     posts = Post.objects.filter(category__id=pk).order_by('-publication_date')
     context.update({'posts': posts})
-    return render(request, "profile/profile.html", context)
+    return render(request, "profile/posts.html", context)
+
+
+@login_required()
+def my_comments(request):
+    return render(request, "profile/comments.html", menu_context(request))
+
+
+def my_settings(request):
+    return render(request, "profile/settings.html", menu_context(request))
+
+
+def my_posts(request):
+    return render(request, "profile/posts.html", menu_context(request))
 
 
 @login_required()

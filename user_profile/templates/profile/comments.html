@@ -1,0 +1,43 @@
+{% extends "userprofile.html" %}
+
+{% block profile_content %}
+
+
+{% for comment in comments %}
+
+    <div class="comment" id="c{{ comment.id }}">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a href="#" class="comment-author">{{ comment.author }}</a>
+                <span class="comment-publication_date">{{ comment.publication_date }}</span>
+            </div>
+
+            <div class="comment-body panel-body">
+                <div>{{ comment.body }}</div>
+                <div class="pull-right">
+
+                {% if comment.child_number > 0 %}
+                    <button class="show-sub-comments btn btn-info btn-xs ">
+                        opdowiedzi: {{ comment.child_number }}
+                    </button>
+                {% endif %}
+                    <button class="add-sub-comment btn btn-info btn-xs">
+                        odpowiedz
+                    </button>
+                    <button class="btn btn-warning btn-xs">
+                        zgłoś
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="sub-comments-container" style="display: none"></div>
+
+    </div>
+
+{% empty %}
+    <div style="margin-left: 10px">Brak komentarzy.</div>
+{% endfor %}
+
+{% endblock %}

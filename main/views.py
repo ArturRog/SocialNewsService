@@ -44,6 +44,10 @@ def home(request, filtr=None):
 @login_required()
 def upvote_news(request, pk):
     post = get_object_or_404(Post, id=pk)
+    user = post.author
+    user_profile = UserProfile.objects.get(user=user)
+    user_profile.reputation += 1
+    user_profile.save()
     post.votes += 1
     post.save()
     return redirect("/")
@@ -52,6 +56,10 @@ def upvote_news(request, pk):
 @login_required()
 def downvote_news(request, pk):
     post = get_object_or_404(Post, id=pk)
+    user = post.author
+    user_profile = UserProfile.objects.get(user=user)
+    user_profile.reputation -= 1
+    user_profile.save()
     post.votes -= 1
     post.save()
     return redirect("/")

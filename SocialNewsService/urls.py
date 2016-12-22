@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from user_profile.views import profile, my_categories, add_to_favorites
+from user_profile.views import profile, my_categories, add_to_favorites, my_comments, my_settings, my_posts
 from posts.views import new_post, show_comments, new_comment, show_posts
 from category.views import new_category, search_category
 
@@ -36,6 +36,9 @@ urlpatterns = [
                   url(r'^profile/$', profile, name='profile'),
                   url(r'^add_to_favorites/(?P<pk>\d+)/$', add_to_favorites, name='add_to_favorites'),
                   url(r'^my_categories/(?P<pk>\d+)/$', my_categories, name='my_categories'),
+                  url(r'^my_comments/$', my_comments, name='my_comments'),
+                  url(r'^my_settings/$', my_settings, name='my_settings'),
+                  url(r'^my_posts/$', my_posts, name='my_posts'),
                   url(r'^new_post/$', new_post, name='new_post'),
 
                   url(r'^posts/show_posts/$', show_posts, name='show_posts'),

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=30)
+    category_name = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=300)
     is_original = models.BooleanField(default=False)  # true dla podstawowych kategorii
     owner = models.ForeignKey(User, related_name="category_owner", blank=True, null=True,
