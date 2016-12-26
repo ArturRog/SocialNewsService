@@ -38,3 +38,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Autor: {0} id {1}: "{2}" >> {3}'.format(self.author, self.id, self.body, self.parent)
+
+
+class Report(models.Model):
+    post = models.ForeignKey(Post)
+    message = models.TextField()
+    checked = models.BooleanField(default=False)
+    report_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Report. Post: {0}. Message: {1}'.format(self.post, self.message)

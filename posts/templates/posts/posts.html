@@ -1,54 +1,67 @@
 {% block content %}
-<div id="add-comment-form"
-     class="navbar-fixed-bottom col-sm-4"
-     style="margin-bottom: 30px; margin-left: 30px; display: none"></div>
+    <div id="add-comment-form"
+         class="navbar-fixed-bottom col-sm-4"
+         style="margin-bottom: 30px; margin-left: 30px; display: none"></div>
 
-{% for post in posts %}
-    <div class="panel panel-default">
+    {% for post in posts %}
+        <div class="panel panel-default">
 
-        <div class="panel-heading">{{ post.title }}</div>
+            <div class="panel-heading">{{ post.title }}AJAJAJA</div>
 
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img src="{{ post.picture.url }}" height="70px">
-                    </a>
+            <div class="panel-body">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img src="{{ post.picture.url }}" height="70px">
+                        </a>
+                    </div>
+
+                    <div class="media-body"> {{ post.body }} </div>
                 </div>
 
-                <div class="media-body"> {{ post.body }} </div>
-            </div>
+                <div class="post-navigation" id="p{{ post.id }}">
 
-            <div class="post-navigation" id="p{{ post.id }}">
+                    <div class="pull-right">
+                        <button class="{% if post.comments_number > 0 %}show-comments{% endif %} btn btn-info btn-xs">
+                            komentarze: {{ post.comments_number }}
+                        </button>
+                        <button class="add-comment btn btn-info btn-xs">
+                            odpowiedz
+                        </button>
+                        <button class="btn btn-warning btn-xs">
+                            zgłoś
+                        </button>
 
-                <div class="pull-right">
-                    <button class="{% if post.comments_number > 0 %}show-comments{% endif %} btn btn-info btn-xs">
-                        komentarze: {{ post.comments_number }}
-                    </button>
-                    <button class="add-comment btn btn-info btn-xs">
-                        odpowiedz
-                    </button>
-                    <button class="btn btn-warning btn-xs">
-                        zgłoś
-                    </button>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                    style="font-size: 120%;">
+                                Dodaj
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{% url 'new_post' %}">Nowy news</a></li>
+                                <li><a href="{% url 'new_category' %}">Nowa kategoria</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="media-left media-middle pull-right" style="font-size: 17px; ">
+                        <a href="{% url 'upvote_news' post.id %}">
+                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true" style="color: green"></span>
+                        </a>
+                        <span>{{ post.votes }}</span>
+                        <a href="{% url 'downvote_news' post.id %}">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="color: red"></span>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="comments-container" style="display: none"></div>
                 </div>
-                <div class="media-left media-middle pull-right" style="font-size: 17px; ">
-                    <a href="{% url 'upvote_news' post.id %}">
-                        <span class="glyphicon glyphicon-chevron-up" aria-hidden="true" style="color: green"></span>
-                    </a>
-                    <span>{{ post.votes }}</span>
-                    <a href="{% url 'downvote_news' post.id %}">
-                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="color: red"></span>
-                    </a>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="comments-container" style="display: none"></div>
             </div>
         </div>
-    </div>
 
-{% empty %}
-    <span class="list-group-item">Nie ma zadnych newsow.</span>
-{% endfor %}
+    {% empty %}
+        <span class="list-group-item">Nie ma zadnych newsow.</span>
+    {% endfor %}
 {% endblock %}
