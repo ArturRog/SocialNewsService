@@ -24,13 +24,12 @@
                     <div class="pull-right">
                         {% if report.checked == False %}
                             <h style="color: red;">Zgłoszenie nie zostało jeszcze sprawdzone.</h>
-
                         {% else %}
                             <h style="color: green;">Zgłoszenie zostało sprawdzone.</h>
                         {% endif %}
                         <a href="/admin/posts/report/{{ report.id }}" style="padding-top:5px;">
                             <button class="add-comment btn btn-info btn-xs" style="font-size: 110%;" >
-                                Edytuj
+                                edytuj
                             </button>
                         </a>
                     </div>

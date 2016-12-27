@@ -62,12 +62,14 @@
                         <button class="add-comment btn btn-info btn-xs">
                             odpowiedz
                         </button>
-                        {#                            <button class="btn btn-warning btn-xs">#}
-                        {#                                zgłoś#}
-                        {#                            </button>#}
+                    {% if user.id == post.author.id %}
+                        <a href="/admin/posts/post/{{ post.id }}">
+                            <button class="add-comment btn btn-info btn-xs">
+                                edytuj
+                            </button>
+                        </a>
+                    {% endif %}
                         <div class="dropdown">
-
-
                             <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 zgłoś
@@ -79,6 +81,7 @@
                                 <li><a href="{% url 'report' post.id 4 %}">Propagowanie przemocy</a></li>
                             </ul>
                         </div>
+
                     </div>
                     <div class="media-left media-middle pull-right" style="font-size: 17px; ">
                         <a href="{% url 'upvote_news' post.id %}">
