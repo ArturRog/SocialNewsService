@@ -62,7 +62,7 @@
                         <button class="add-comment btn btn-info btn-xs">
                             odpowiedz
                         </button>
-                    {% if user.id == post.author.id %}
+                    {% if user.id == post.category.owner.id %}
                         <a href="/admin/posts/post/{{ post.id }}">
                             <button class="add-comment btn btn-info btn-xs">
                                 edytuj

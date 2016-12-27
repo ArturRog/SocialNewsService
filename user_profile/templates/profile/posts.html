@@ -3,15 +3,7 @@
 {% block profile_content %}
 
     {% for post in posts %}
-        <div class="media" style="margin: 15px; background-color: rgb(248,248,248); padding: 5px;">
-            <div class="media-left media-middle" style="font-size: 17px; ">
-
-                <a href="{% url 'upvote_news' post.id %}"><span class="glyphicon glyphicon-chevron-up"
-                                                                aria-hidden="true" style="color: green"/></a>
-                <span><b>{{ post.votes }}</b></span>
-                <a href="{% url 'downvote_news' post.id %}"><span class="glyphicon glyphicon-chevron-down"
-                                                                  aria-hidden="true" style="color: red"/></a>
-            </div>
+        <div class="media" style="margin: 15px; background-color: rgb(248,248,248); padding: 5px; width: 85%;">
             <div class="media-left media-top">
                 <a href="#">
                     <img src="{{ post.picture.url }}" height="70px">
@@ -21,24 +13,57 @@
                 <h4 class="media-heading">{{ post.title }}</h4>
                 {{ post.body }}
             </div>
+            <div class="post-navigation" id="p{{ post.id }}">
 
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#{{ post.id }}"
-               aria-expanded="false" aria-controls="collapseExample" style="margin-left: 110px">
-                Komentarze
-            </a>
-            <div class="collapse" id="{{ post.id }}">
-                <div class="comments" id="{{ post.id }}" style="margin-left: 110px">
-                    <a class="add-comment" href="#">
-                        Dodaj komentarz
-                    </a>
-                    <a class="show-comments" href="#">
-                        Wyświetl komentarze
-                    </a>
-                    <div class="comments-container">
-                        Tu jest miejsce na komentarze
+                <div class="pull-right">
+                    <button class="{% if post.comments_number > 0 %}show-comments{% endif %} btn btn-info btn-xs">
+                        komentarze: {{ post.comments_number }}
+                    </button>
+                    <button class="add-comment btn btn-info btn-xs">
+                        odpowiedz
+                    </button>
+                    {% if user.id == post.category.owner.id %}
+                        <a href="/admin/posts/post/{{ post.id }}">
+                            <button class="add-comment btn btn-info btn-xs">
+                                edytuj
+                            </button>
+                        </a>
+                    {% endif %}
+                    <div class="dropdown">
+                        <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            zgłoś
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="{% url 'report' post.id 1 %} ">Spam</a></li>
+                            <li><a href="{% url 'report' post.id 2 %}">Obrazliwe tresci</a></li>
+                            <li><a href="{% url 'report' post.id 3 %}">Nieprawdziwa informacja</a></li>
+                            <li><a href="{% url 'report' post.id 4 %}">Propagowanie przemocy</a></li>
+                        </ul>
                     </div>
+
                 </div>
+                <div class="clearfix"></div>
+
+                <div class="comments-container" style="display: none"></div>
             </div>
+            {#            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#{{ post.id }}"#}
+            {#               aria-expanded="false" aria-controls="collapseExample" style="margin-left: 110px">#}
+            {#                Komentarze#}
+            {#            </a>#}
+            {#            <div class="collapse" id="{{ post.id }}">#}
+            {#                <div class="comments" id="{{ post.id }}" style="margin-left: 110px">#}
+            {#                    <a class="add-comment" href="#">#}
+            {#                        Dodaj komentarz#}
+            {#                    </a>#}
+            {#                    <a class="show-comments" href="#">#}
+            {#                        Wyświetl komentarze#}
+            {#                    </a>#}
+            {#                    <div class="comments-container">#}
+            {#                        Tu jest miejsce na komentarze#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
         </div>
     {% empty %}
         <span class="list-group-item">Nie ma zadnych newsow.</span>
