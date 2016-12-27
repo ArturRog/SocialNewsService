@@ -24,9 +24,8 @@ class Post(models.Model):
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
 
     def __str__(self):
-        return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category.category_name, self.author,
-                                                 self.publication_date.strftime("%d/%m/%y")).encode('ascii',
-                                                                                                    errors='replace')
+        return "{0} -- {1} -- {2}".format(self.title, self.author, self.publication_date.strftime("%d/%m/%y")).encode(
+            'utf-8')
 
 
 class Comment(models.Model):
@@ -44,7 +43,6 @@ class Report(models.Model):
     post = models.ForeignKey(Post)
     message = models.TextField()
     checked = models.BooleanField(default=False)
-    report_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return 'Report. Post: {0}. Message: {1}'.format(self.post, self.message)
+        return "{0} --Sprawdzony? {1} -- {2}".format(self.message, self.checked, self.post.title).encode('utf-8')

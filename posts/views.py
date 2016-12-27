@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponseRedirect, HttpResponseNotAllowed
-from posts.forms import PostForm, CommentForm, ReportForm
-from django.shortcuts import render
+from posts.forms import PostForm, CommentForm
+from django.shortcuts import render, redirect
 from posts.models import Post, Comment, Category, Report
 from django.contrib.auth.models import User
 
@@ -75,17 +75,22 @@ def count_comments(post, comment=None):
 
 
 MESSAGES = {
-    1: 'Spam',
-    2: 'Obrazliwe tresci',
-    3: 'Nieprawdziwa informacja',
-    4: 'Propagowanie przemocy'
+    '1': 'Spam',
+    '2': 'Obrazliwe tresci',
+    '3': 'Nieprawdziwa informacja',
+    '4': 'Propagowanie przemocy'
 }
 
 
-def make_report(request, user, message):
+def make_report(request, post_id, message):
     report = Report()
-    report.post = User.objects.get(id=user)
+    report.post = Post.objects.get(id=post_id)
     report.message = MESSAGES[message]
     report.save()
-    return HttpResponseRedirect('/')
+    return redirect("/")
 
+
+def show_reports(request):
+    reports = Report.objects.all()
+    context = {'reports': reports}
+    return render(request, "reports/reports.html", context)

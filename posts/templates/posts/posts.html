@@ -28,20 +28,19 @@
                         <button class="add-comment btn btn-info btn-xs">
                             odpowiedz
                         </button>
-                        <button class="btn btn-warning btn-xs">
-                            zgłoś
-                        </button>
-
                         <div class="dropdown">
-                            <button class="btn btn-default dropdown" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-                                    style="font-size: 120%;">
-                                Dodaj
-                                <span class="caret"></span>
+
+
+                            <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                zgłoś
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="{% url 'new_post' %}">Nowy news</a></li>
-                                <li><a href="{% url 'new_category' %}">Nowa kategoria</a></li>
+                                <li><a href="{% url 'report' post.author 1 %}">Spam</a></li>
+                                <li><a href="{% url 'report'post.author 2 %}">Obrazliwe tresci</a></li>
+                                <li><a href="{% url 'report'post.author 3 %}">Nieprawdziwa informacja</a></li>
+                                <li><a href="{% url 'report'post.author 4 %}">Propagowanie przemocy</a></li>
+
                             </ul>
                         </div>
                     </div>

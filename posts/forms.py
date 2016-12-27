@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.forms import ModelForm
-from posts.models import Post, Comment, Report, ReportMessages
+from posts.models import Post, Comment, Report
 from django.utils.translation import ugettext_lazy as _
 
 
