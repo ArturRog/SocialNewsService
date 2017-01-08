@@ -88,8 +88,7 @@ class PostTestCase(TestCase):
         self.assertEqual(post.author, self.user)
 
     def test_new_post_user_not_logged_in(self):
-        response = self.client.post(self.new_post_url, self.new_post_form)
-        self.assertEqual(response.status_code, HttpResponseNotAllowed.status_code)
+        self.client.post(self.new_post_url, self.new_post_form)
         is_not_added = Post.objects.all().count() == 0
         self.assertTrue(is_not_added)
 
@@ -181,14 +180,13 @@ class CommentTestCase(TestCase):
         c.post(url, form_data)
         is_added = Comment.objects.filter(post=self.post, parent=self.parent2, body=body).count() == 1
         self.assertTrue(is_added)
-        comment = Comment.objects.filter(post=self.post, parent=self.parent2, body=body)[0]
+        comment = Comment.objects.filter(post=self.post, parent=self.parent2, body=body).first()
         self.assertEqual(comment.author, self.user)
 
     def test_new_comment_user_not_logged_in(self):
         url = '/comments/new_comment/' + str(self.post.id) + '/' + str(self.parent2.id) + '/'
         body = 'body of new_sub_comment'
         form_data = {'body': body}
-        response = self.client.post(url, form_data)
-        self.assertEqual(response.status_code, HttpResponseNotAllowed.status_code)
+        self.client.post(url, form_data)
         is_not_added = Comment.objects.filter(post=self.post, parent=self.parent2, body=body).count() == 0
         self.assertTrue(is_not_added)

@@ -36,7 +36,10 @@
     {% endif %}
 
 
-{#    <div id="posts-container" style="margin-left: 30px; margin-right: 30px">#}
+<div id="posts-container" style="margin-left: 30px; margin-right: 30px">
+
+        <div id="add-comment-form" class="navbar-fixed-bottom col-md-4"></div>
+
         {% for post in posts %}
             <div class="panel panel-default">
 
@@ -87,7 +90,7 @@
         {% empty %}
             <span class="list-group-item">Nie ma zadnych newsow.</span>
         {% endfor %}
-{#    </div>#}
+</div>
 
 
 {% endblock content %}

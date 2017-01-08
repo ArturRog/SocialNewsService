@@ -37,6 +37,9 @@ def home(request, filtr=None):
         posts = post_filter(posts, filtr)
         request.path = "/"
 
+    for post in posts:
+        post.comments_number = count_comments(post)
+
     context = {'posts': posts}
     return render(request, "main/home.html", context)
 
