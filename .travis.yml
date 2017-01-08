@@ -9,10 +9,6 @@ install:
   - pip install coverage
   - pip install coveralls
 
-before_script:
-  – python manage.py makemigrations
-  – python manage.py migrate
-
 # command to run tests
 script:
   - coverage run -p --source='.' manage.py test
