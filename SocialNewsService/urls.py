@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from user_profile.views import profile, my_categories, add_to_favorites, my_comments, my_settings, my_posts
-from posts.views import new_post, show_comments, new_comment, show_posts
+from posts.views import new_post, show_comments, new_comment, show_posts, make_report, show_reports
 from category.views import new_category, search_category
 
 urlpatterns = [
@@ -41,6 +41,10 @@ urlpatterns = [
                   url(r'^my_posts/$', my_posts, name='my_posts'),
                   url(r'^new_post/$', new_post, name='new_post'),
 
+                  # url(r'^report/(?P<post_id>\d+)/(?P<message>\d+)/$', make_report, name='make_report'),
+                  url(r'^report/(?P<post_id>\d+)/(?P<message>\d+)/$', make_report, name='report'),
+                  url(r'^reports/$', show_reports, name='reports'),
+
                   url(r'^posts/show_posts/$', show_posts, name='show_posts'),
                   url(r'^posts/show_posts/(?P<page_number>[0-9]+)/$', show_posts, name='show_posts'),
 
@@ -57,6 +61,7 @@ urlpatterns = [
                   url(r'^downvote_news/(?P<pk>\d+)/$', downvote_news, name='downvote_news'),
                   url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter'),
                   url(r'^category/(?P<pk>\d+)/cat-(?P<filtr>\w+)/$', category_filter, name='category_filter'),
+
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

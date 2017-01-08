@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.http import HttpResponseRedirect, HttpResponseNotAllowed
-from posts.forms import PostForm, CommentForm
-from django.shortcuts import render
-from posts.models import Post, Comment, Category
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+
+from posts.forms import PostForm, CommentForm
+from posts.models import Post, Comment, Report
 
 
 @login_required()
@@ -81,4 +82,23 @@ def count_comments(post, comment=None):
         return count
 
 
+MESSAGES = {
+    '1': 'Spam',
+    '2': 'Obrazliwe tresci',
+    '3': 'Nieprawdziwa informacja',
+    '4': 'Propagowanie przemocy'
+}
 
+
+def make_report(request, post_id, message):
+    report = Report()
+    report.post = Post.objects.get(id=post_id)
+    report.message = MESSAGES[message]
+    report.save()
+    return redirect("/")
+
+
+def show_reports(request):
+    reports = Report.objects.all()
+    context = {'reports': reports}
+    return render(request, "reports/reports.html", context)

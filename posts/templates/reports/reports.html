@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    {% for report in reports %}
+        <div class="panel panel-default">
+
+            <div class="panel-heading">{{ report.post.title }}<a
+                    style="color: red; margin-left:5em;"><b>{{ report.message }}</b></a></div>
+
+            <div class="panel-body">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img src="{{ report.post.picture.url }}" height="70px">
+                        </a>
+                    </div>
+
+                    <div class="media-body"> {{ report.post.body }} </div>
+                </div>
+
+                <div class="post-navigation" id="p{{ report.post.id }}">
+
+                    <div class="pull-right">
+                        {% if report.checked == False %}
+                            <h style="color: red;">Zgłoszenie nie zostało jeszcze sprawdzone.</h>
+                        {% else %}
+                            <h style="color: green;">Zgłoszenie zostało sprawdzone.</h>
+                        {% endif %}
+                        <a href="/admin/posts/report/{{ report.id }}" style="padding-top:5px;">
+                            <button class="add-comment btn btn-info btn-xs" style="font-size: 110%;" >
+                                edytuj
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="comments-container" style="display: none"></div>
+                </div>
+            </div>
+        </div>
+
+    {% empty %}
+        <span class="list-group-item">Nie ma zadnych zgloszen.</span>
+    {% endfor %}
+
+
+{% endblock %}

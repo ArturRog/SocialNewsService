@@ -16,6 +16,7 @@
     <script src="{% static 'bootstrap/assets/js/vendor/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/posts.js' %}"></script>
 
 </head>
 
@@ -41,15 +42,20 @@
                 <li><a href="{% url 'category_filter' 3 %}">Nauka</a></li>
                 <li><a href="{% url 'category_filter' 5 %}">Sport</a></li>
                 <li><a href="{% url 'category_filter' 6 %}">Technologia</a></li>
-                <li><a href="{% url 'category_filter' 7 %}">Rozrywka</a></li>
-                <li><a href="{% url 'category_filter' 8 %}">Polityka</a></li>
+                {#                <li><a href="{% url 'category_filter' 7 %}">Rozrywka</a></li>#}
+                {#                <li><a href="{% url 'category_filter' 8 %}">Polityka</a></li>#}
+
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated and user.is_superuser %}
+                    <li><a href="/admin/" style="padding: 0px;"><button class="btn btn-default" type="button">Admin</button></a></li>
+                    <li><a href="{% url 'reports' %}" style="padding: 0px;"><button class="btn btn-default" type="button">Zgłoszenia</button></a></li>
+                {% endif %}
                 <li>
                     <div class="form-group" style="width: 130px;">
                         <input type="text" class="form-control" id="search" name="search"
-                               placeholder="Szukaj kategorii">
+                               placeholder="Szukaj kategorii" >
 
                     </div>
                     {% csrf_token %}

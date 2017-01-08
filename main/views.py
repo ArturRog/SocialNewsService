@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-# Create your views here.
 from posts.models import Post
 from category.models import Category
 from user_profile.models import UserProfile
 from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
-from posts.views import count_comments, show_posts
+from posts.views import count_comments
 from datetime import datetime, timedelta
-from django.template.loader import render_to_string
 
 
 def post_filter(posts, filtr):
@@ -29,17 +26,12 @@ def post_filter(posts, filtr):
 
 
 def home(request, filtr=None):
-    # posts_response = show_posts(request)
-    # context = {'posts_response': posts_response}
     posts = Post.objects.all()
-
     if filtr:
         posts = post_filter(posts, filtr)
         request.path = "/"
-
     for post in posts:
         post.comments_number = count_comments(post)
-
     context = {'posts': posts}
     return render(request, "main/home.html", context)
 
@@ -71,12 +63,11 @@ def downvote_news(request, pk):
 def category_filter(request, pk, filtr=None):
     posts = Post.objects.filter(category__id=pk)
     category = Category.objects.get(id=pk)
-    # posts_response = show_posts(request, 1, category=None)
-    # context = {'posts_response': posts_response, 'category': category}
-
     if filtr:
         posts = post_filter(posts, filtr)
         request.path = "/category/" + pk + '/'
+    for post in posts:
+        post.comments_number = count_comments(post)
     context = {'posts': posts, 'category': category}
 
     return render(request, "main/home.html", context)

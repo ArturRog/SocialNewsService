@@ -9,10 +9,6 @@ import datetime
 from category.models import Category
 
 
-# Create your models here.
-
-
-
 class Post(models.Model):
     title = models.CharField(max_length=50)
     body = models.TextField()
@@ -24,9 +20,14 @@ class Post(models.Model):
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
 
     def __str__(self):
-        return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category.category_name, self.author,
-                                                 self.publication_date.strftime("%d/%m/%y")).encode('ascii',
-                                                                                                    errors='replace')
+        return "{0} -- {1} -- {2}".format(self.title, self.author, self.publication_date.strftime("%d/%m/%y")).encode(
+            'utf-8')
+
+
+class PostVotes(models.Model):
+    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post)
+    vote = models.IntegerField(default=0)
 
 
 class Comment(models.Model):
@@ -38,3 +39,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Autor: {0} id {1}: "{2}" >> {3}'.format(self.author, self.id, self.body, self.parent)
+
+
+class Report(models.Model):
+    post = models.ForeignKey(Post)
+    message = models.TextField()
+    checked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{0} --Sprawdzony? {1} -- {2}".format(self.message, self.checked, self.post.title).encode('utf-8')

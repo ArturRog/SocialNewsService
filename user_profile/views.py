@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from posts.models import Comment, Post
 from category.models import Category
+from posts.views import count_comments
 from user_profile.models import UserProfile
 
 
@@ -16,6 +17,8 @@ def menu_context(request):
     reputation = user_profile.reputation
     comments = Comment.objects.filter(author=current_user)
     posts = Post.objects.filter(author=current_user)
+    for post in posts:
+        post.comments_number = count_comments(post)
     context = {'current_user': current_user, 'categories': categories, 'fav_categories': fav_categories,
                'reputation': reputation, 'comments': comments, 'user_profile': user_profile, 'posts': posts}
     return context
