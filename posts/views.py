@@ -11,7 +11,8 @@ from django.shortcuts import render, redirect
 from posts.models import Post, Comment, Category, Report
 from django.contrib.auth.models import User
 
-@login_required()
+
+@login_required
 def new_post(request):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
