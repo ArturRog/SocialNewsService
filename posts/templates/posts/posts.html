@@ -1,49 +1,60 @@
-{% block content %}
-    <div id="add-comment-form"
-         class="navbar-fixed-bottom col-sm-4"
-         style="margin-bottom: 30px; margin-left: 30px; display: none"></div>
+<div id="posts-container" style="margin-left: 30px; margin-right: 30px">
+    <div id="add-comment-form" class="navbar-fixed-bottom col-md-4"></div>
 
     {% for post in posts %}
         <div class="panel panel-default">
 
-            <div class="panel-heading">{{ post.title }}AJAJAJA</div>
+            <div class="panel-heading"><a href="{{ post.original_url }}">{{ post.title }}</a></div>
 
             <div class="panel-body">
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
-                            <img src="{{ post.picture.url }}" height="70px">
-                        </a>
+                        {% if post.picture %}
+                        <a href="{{ post.picture.url }}"><img src="{{ post.picture.url }}" height="70px"></a>
+                        {% endif %}
                     </div>
-
-                    <div class="media-body"> {{ post.body }} </div>
+                    <div class="media-body">
+                        {{ post.body }}
+                    </div>
                 </div>
+
 
                 <div class="post-navigation" id="p{{ post.id }}">
 
-                    <div class="pull-right">
+                    <div class="pull-right dropdown">
+
                         <button class="{% if post.comments_number > 0 %}show-comments{% endif %} btn btn-info btn-xs">
                             komentarze: {{ post.comments_number }}
                         </button>
-                        <button class="add-comment btn btn-info btn-xs">
-                            odpowiedz
+
+                        <button class="add-comment btn btn-info btn-xs">odpowiedz</button>
+
+                        {% if user == post.category.owner %}
+                            <a href="/admin/posts/post/{{ post.id }}" >
+                                <button class="btn btn-danger btn-xs">moderuj</button>
+                            </a>
+                        {% endif %}
+
+                        {% if user == post.author %}
+                            <a href="{% url 'edit_post' post.id %}" >
+                                <button class="btn btn-success btn-xs">edytuj</button>
+                            </a>
+                        {% endif %}
+
+
+                        <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            zgłoś
                         </button>
-                        <div class="dropdown">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="{% url 'report' post.id 1 %} ">Spam</a></li>
+                            <li><a href="{% url 'report' post.id 2 %}">Obrazliwe tresci</a></li>
+                            <li><a href="{% url 'report' post.id 3 %}">Nieprawdziwa informacja</a></li>
+                            <li><a href="{% url 'report' post.id 4 %}">Propagowanie przemocy</a></li>
+                        </ul>
 
-
-                            <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                zgłoś
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="{% url 'report' post.author 1 %}">Spam</a></li>
-                                <li><a href="{% url 'report'post.author 2 %}">Obrazliwe tresci</a></li>
-                                <li><a href="{% url 'report'post.author 3 %}">Nieprawdziwa informacja</a></li>
-                                <li><a href="{% url 'report'post.author 4 %}">Propagowanie przemocy</a></li>
-
-                            </ul>
-                        </div>
                     </div>
+
                     <div class="media-left media-middle pull-right" style="font-size: 17px; ">
                         <a href="{% url 'upvote_news' post.id %}">
                             <span class="glyphicon glyphicon-chevron-up" aria-hidden="true" style="color: green"></span>
@@ -53,14 +64,13 @@
                             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="color: red"></span>
                         </a>
                     </div>
-                    <div class="clearfix"></div>
 
+                    <div class="clearfix"></div>
                     <div class="comments-container" style="display: none"></div>
                 </div>
             </div>
         </div>
-
     {% empty %}
         <span class="list-group-item">Nie ma zadnych newsow.</span>
     {% endfor %}
-{% endblock %}
+</div>

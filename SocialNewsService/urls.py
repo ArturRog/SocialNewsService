@@ -20,9 +20,8 @@ from main.views import home, register, upvote_news, downvote_news, category_filt
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from django.views.generic.base import TemplateView
 from user_profile.views import profile, my_categories, add_to_favorites, my_comments, my_settings, my_posts
-from posts.views import new_post, show_comments, new_comment, show_posts, make_report, show_reports
+from posts.views import new_post, show_comments, new_comment, show_posts
 from category.views import new_category, search_category
 
 urlpatterns = [
@@ -40,6 +39,7 @@ urlpatterns = [
                   url(r'^my_settings/$', my_settings, name='my_settings'),
                   url(r'^my_posts/$', my_posts, name='my_posts'),
                   url(r'^new_post/$', new_post, name='new_post'),
+                  url(r'^edit_post/(?P<post_id>\d+)/$', edit_post, name='edit_post'),
 
                   # url(r'^report/(?P<post_id>\d+)/(?P<message>\d+)/$', make_report, name='make_report'),
                   url(r'^report/(?P<post_id>\d+)/(?P<message>\d+)/$', make_report, name='report'),
@@ -63,7 +63,10 @@ urlpatterns = [
                   url(r'^category/(?P<pk>\d+)/cat-(?P<filtr>\w+)/$', category_filter, name='category_filter'),
 
 
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

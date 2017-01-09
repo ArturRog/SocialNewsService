@@ -1,25 +1,47 @@
 # -*- coding: utf-8 -*-
 
-from django.http import HttpResponseRedirect, HttpResponseNotAllowed
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+
 from posts.forms import PostForm, CommentForm
+from posts.models import Post, Comment, Report
+
 from django.shortcuts import render, redirect
 from posts.models import Post, Comment, Category, Report
 from django.contrib.auth.models import User
 
-
+@login_required()
 def new_post(request):
-    current_user = request.user
-    if not current_user.is_authenticated:
-        return HttpResponseNotAllowed(['GET', 'POST'])
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
             post = post_form.save(commit=False)
-            post.author = current_user
+            post.author = request.user
             post.save()
             return HttpResponseRedirect('/')
     else:
         post_form = PostForm()
+    return render(request, "posts/new_post.html", {'form': post_form})
+
+
+@login_required
+def edit_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    if request.method == 'POST':
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            edited_post = post_form.save(commit=False)
+            post.title = edited_post.title
+            post.body = edited_post.body
+            post.picture = edited_post.picture
+            post.original_url = edited_post.original_url
+            post.category = edited_post.category
+            post.is_modified = True
+            post.save()
+            return HttpResponseRedirect('/')
+    else:
+        post_form = PostForm(instance=post)
     return render(request, "posts/new_post.html", {'form': post_form})
 
 
@@ -31,15 +53,24 @@ def show_posts(request, page_number=None, category=None):
     return render(request, "posts/posts.html", context)
 
 
+def filtered_posts_context(page_number=None, filter_object=None):
+    posts = Post.objects.all()
+    if filter_object is not None:
+        posts = posts.filter(filter_object)
+    for post in posts:
+        post.comments_number = count_comments(post)
+
+    context = {'posts': posts}
+    return context
+
+
+@login_required()
 def new_comment(request, post_id, comment_id=None):
-    current_user = request.user
-    if not current_user.is_authenticated:
-        return HttpResponseNotAllowed(['GET', 'POST'])
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, request.FILES)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
-            comment.author = current_user
+            comment.author = request.user
             comment.post = Post.objects.filter(id=post_id)[0]
             comment.parent = None if comment_id is None else Comment.objects.filter(id=comment_id)[0]
             comment.save()

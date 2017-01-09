@@ -9,9 +9,7 @@ $( document ).ready(function() {
     function get_html_comment_id() { return '#'+comment_id; }
     function get_comment_id() { return comment_id.replace('c', ''); }
 
-
     $('#posts-container')
-        // .load('/posts/show_posts/')
         .on('click', '.add-comment', function() {
             set_post_id(this);
             new_comment();
@@ -37,11 +35,6 @@ $( document ).ready(function() {
                 $element.empty();
             });
         });
-
-/*    $( '#add-comment-form' )
-        .on('click', '#add-comment-close-button', function () {
-            alert('close()');
-        });*/
 
     function show_comments() {
         var element_id = get_html_post_id();

@@ -5,12 +5,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-import datetime
 from category.models import Category
-
-
-# Create your models here.
-
 
 
 class Post(models.Model):
@@ -18,14 +13,17 @@ class Post(models.Model):
     body = models.TextField()
     author = models.ForeignKey(User, related_name="post_author")
     publication_date = models.DateTimeField(auto_now_add=True)
-    picture = models.ImageField(upload_to='images', blank=True, null=True, default='default_image.svg')
+    modification_date = models.DateTimeField(auto_now=True)
+    is_modified = models.BooleanField(default=False)
+    picture = models.ImageField(upload_to='images', blank=True, null=True)
     original_url = models.URLField()
     category = models.ForeignKey(Category)
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
 
     def __str__(self):
-        return "{0} -- {1} -- {2}".format(self.title, self.author, self.publication_date.strftime("%d/%m/%y")).encode(
-            'utf-8')
+        return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category.category_name, self.author,
+                                                 self.publication_date.strftime("%d/%m/%y")).encode('ascii',
+                                                                                                    errors='replace')
 
 
 class Comment(models.Model):
