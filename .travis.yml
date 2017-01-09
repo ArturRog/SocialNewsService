@@ -3,9 +3,8 @@ python:
   - "2.7"
   - pypy
 
-env:
-  - CFLAGS=-Qunused-arguments
-  - CPPFLAGS=-Qunused-arguments
+before-script:
+  - sudo rm -rf couchbase_ffi/_lcb.h
   
 # command to install dependencies
 install:
