@@ -21,14 +21,9 @@ class Post(models.Model):
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
 
     def __str__(self):
-        return "{0} -- {1} -- {2}".format(self.title, self.author, self.publication_date.strftime("%d/%m/%y")).encode(
-            'utf-8')
-
-
-class PostVotes(models.Model):
-    user = models.ForeignKey(User)
-    post = models.ForeignKey(Post)
-    vote = models.IntegerField(default=0, validators=[MaxValueValidator(1), MinValueValidator(-1)])
+        return "{0} -- {1} -- {2} -- {3}".format(self.title, self.category.category_name, self.author,
+                                                 self.publication_date.strftime("%d/%m/%y")).encode('ascii',
+                                                                                                    errors='replace')
 
 
 class Comment(models.Model):

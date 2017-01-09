@@ -7,6 +7,9 @@ from django.shortcuts import render, redirect
 from posts.forms import PostForm, CommentForm
 from posts.models import Post, Comment, Report
 
+from django.shortcuts import render, redirect
+from posts.models import Post, Comment, Category, Report
+from django.contrib.auth.models import User
 
 @login_required()
 def new_post(request):
