@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from posts.models import Post
+from posts.models import Post, PostVotes
 from category.models import Category
 from user_profile.models import UserProfile
 from .forms import RegisterForm
@@ -21,7 +21,6 @@ def post_filter(posts, filtr):
         posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=30)).order_by('-votes')
     elif filtr == 'najnowsze':
         posts = posts.order_by('-publication_date')
-
     return posts
 
 
@@ -37,27 +36,51 @@ def home(request, filtr=None):
 
 
 @login_required()
-def upvote_news(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    user = post.author
-    user_profile = UserProfile.objects.get(user=user)
-    user_profile.reputation += 1
+def upvote_news(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    voting_user = request.user
+    vote = PostVotes.objects.filter(post=post, user=voting_user).first()
+    if vote is None:
+        vote = PostVotes()
+        vote.post = post
+        vote.user = voting_user
+    author = post.author
+    user_profile = UserProfile.objects.get(user=author)
+    if vote.vote == 0:
+        user_profile.reputation += 1
+        post.votes += 1
+    elif vote.vote == -1:
+        user_profile.reputation += 2
+        post.votes += 2
+    vote.vote = 1
+    vote.save()
     user_profile.save()
-    post.votes += 1
     post.save()
-    return redirect("/")
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @login_required()
-def downvote_news(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    user = post.author
-    user_profile = UserProfile.objects.get(user=user)
-    user_profile.reputation -= 1
+def downvote_news(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    voting_user = request.user
+    vote = PostVotes.objects.filter(post=post, user=voting_user).first()
+    if vote is None:
+        vote = PostVotes()
+        vote.post = post
+        vote.user = voting_user
+    author = post.author
+    user_profile = UserProfile.objects.get(user=author)
+    if vote.vote == 0:
+        user_profile.reputation -= 1
+        post.votes -= 1
+    elif vote.vote == 1:
+        user_profile.reputation -= 2
+        post.votes -= 2
+    vote.vote = -1
+    vote.save()
     user_profile.save()
-    post.votes -= 1
     post.save()
-    return redirect("/")
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 def category_filter(request, pk, filtr=None):
@@ -68,8 +91,12 @@ def category_filter(request, pk, filtr=None):
         request.path = "/category/" + pk + '/'
     for post in posts:
         post.comments_number = count_comments(post)
-    context = {'posts': posts, 'category': category}
-
+    is_favorite = category in UserProfile.objects.filter(user=request.user).first().favorite_categories.all()
+    context = {
+        'category': category,
+        'posts': posts,
+        'is_favorite': is_favorite
+    }
     return render(request, "main/home.html", context)
 
 

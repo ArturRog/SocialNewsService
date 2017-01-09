@@ -14,7 +14,7 @@ class Post(models.Model):
     body = models.TextField()
     author = models.ForeignKey(User, related_name="post_author")
     publication_date = models.DateTimeField(auto_now_add=True)
-    picture = models.ImageField(upload_to='images', blank=True, null=True, default='default_image.svg')
+    picture = models.ImageField(upload_to='images', blank=True, null=True)
     original_url = models.URLField()
     category = models.ForeignKey(Category)
     votes = models.IntegerField(default=0, validators=[MaxValueValidator(20000), MinValueValidator(0)])
@@ -27,7 +27,7 @@ class Post(models.Model):
 class PostVotes(models.Model):
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)
-    vote = models.IntegerField(default=0)
+    vote = models.IntegerField(default=0, validators=[MaxValueValidator(1), MinValueValidator(-1)])
 
 
 class Comment(models.Model):

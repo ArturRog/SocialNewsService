@@ -33,8 +33,9 @@ def profile(request):
 @login_required()
 def my_categories(request, pk):
     context = menu_context(request)
-
     posts = Post.objects.filter(category__id=pk).order_by('-publication_date')
+    for post in posts:
+        post.comments_number = count_comments(post)
     context.update({'posts': posts})
     return render(request, "profile/posts.html", context)
 
