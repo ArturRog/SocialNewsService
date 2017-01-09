@@ -2,6 +2,10 @@ language: python
 python:
   - "2.7"
   - pypy
+
+env:
+  - CFLAGS=-Qunused-arguments
+  - CPPFLAGS=-Qunused-arguments
   
 # command to install dependencies
 install:
