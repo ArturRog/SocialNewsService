@@ -2,13 +2,6 @@ language: python
 python:
   - "2.7"
   - pypy
-
-env:
-  - CFLAGS=
-  - CPPFLAGS=
-
-before-script:
-  - rm -rf couchbase_ffi/_lcb.h
   
 # command to install dependencies
 install:
