@@ -22,6 +22,26 @@ def new_post(request):
     return render(request, "posts/new_post.html", {'form': post_form})
 
 
+@login_required
+def edit_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    if request.method == 'POST':
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            edited_post = post_form.save(commit=False)
+            post.title = edited_post.title
+            post.body = edited_post.body
+            post.picture = edited_post.picture
+            post.original_url = edited_post.original_url
+            post.category = edited_post.category
+            post.is_modified = True
+            post.save()
+            return HttpResponseRedirect('/')
+    else:
+        post_form = PostForm(instance=post)
+    return render(request, "posts/new_post.html", {'form': post_form})
+
+
 def show_posts(request, page_number=None, category=None):
     posts = Post.objects.all()
     for post in posts:

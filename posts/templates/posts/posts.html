@@ -29,11 +29,18 @@
 
                         <button class="add-comment btn btn-info btn-xs">odpowiedz</button>
 
-                        {% if user.id == post.category.owner.id %}
+                        {% if user == post.category.owner %}
                             <a href="/admin/posts/post/{{ post.id }}" >
+                                <button class="btn btn-danger btn-xs">moderuj</button>
+                            </a>
+                        {% endif %}
+
+                        {% if user == post.author %}
+                            <a href="{% url 'edit_post' post.id %}" >
                                 <button class="btn btn-success btn-xs">edytuj</button>
                             </a>
                         {% endif %}
+
 
                         <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

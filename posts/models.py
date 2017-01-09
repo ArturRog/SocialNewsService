@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-import datetime
 from category.models import Category
 
 
@@ -14,6 +13,8 @@ class Post(models.Model):
     body = models.TextField()
     author = models.ForeignKey(User, related_name="post_author")
     publication_date = models.DateTimeField(auto_now_add=True)
+    modification_date = models.DateTimeField(auto_now=True)
+    is_modified = models.BooleanField(default=False)
     picture = models.ImageField(upload_to='images', blank=True, null=True)
     original_url = models.URLField()
     category = models.ForeignKey(Category)

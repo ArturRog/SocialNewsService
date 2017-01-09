@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from user_profile.views import profile, my_categories, add_to_favorites, my_comments, my_settings, my_posts
-from posts.views import new_post, show_comments, new_comment, show_posts, make_report, show_reports
+from posts.views import new_post, show_comments, new_comment, show_posts, make_report, show_reports, edit_post
 from category.views import new_category, search_category
 
 urlpatterns = [
@@ -39,6 +39,7 @@ urlpatterns = [
                   url(r'^my_settings/$', my_settings, name='my_settings'),
                   url(r'^my_posts/$', my_posts, name='my_posts'),
                   url(r'^new_post/$', new_post, name='new_post'),
+                  url(r'^edit_post/(?P<post_id>\d+)/$', edit_post, name='edit_post'),
 
                   # url(r'^report/(?P<post_id>\d+)/(?P<message>\d+)/$', make_report, name='make_report'),
                   url(r'^report/(?P<post_id>\d+)/(?P<message>\d+)/$', make_report, name='report'),
