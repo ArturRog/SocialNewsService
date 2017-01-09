@@ -11,9 +11,11 @@
             <div class="panel-body">
                 <div class="media">
                     <div class="media-left">
+                        {% if report.post.picture %}
                         <a href="#">
                             <img src="{{ report.post.picture.url }}" height="70px">
                         </a>
+                        {% endif %}
                     </div>
 
                     <div class="media-body"> {{ report.post.body }} </div>
