@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+
     <nav class="navbar navbar-default ">
         <div class="container">
             <ul class="nav navbar-nav">
@@ -16,23 +17,16 @@
     {% for report in reports %}
         <div class="panel panel-default">
 
-            <div class="panel-heading">{{ report.post.title }}<a
+            <div class="panel-heading">{{ report.comment.author }}<a style="margin-left: 1em;">{{ report.comment.publication_date }}</a><a
                     style="color: red; margin-left:5em;"><b>{{ report.message }}</b></a></div>
 
             <div class="panel-body">
                 <div class="media">
-                    <div class="media-left">
-                        {% if report.post.picture %}
-                        <a href="#">
-                            <img src="{{ report.post.picture.url }}" height="70px">
-                        </a>
-                        {% endif %}
-                    </div>
 
-                    <div class="media-body"> {{ report.post.body }} </div>
+                    <div class="media-body"> {{ report.comment.body }} </div>
                 </div>
 
-                <div class="post-navigation" id="p{{ report.post.id }}">
+                <div class="post-navigation" id="p{{ report.comment.id }}">
 
                     <div class="pull-right">
                         {% if report.checked == False %}
@@ -40,7 +34,7 @@
                         {% else %}
                             <h style="color: green;">Zgłoszenie zostało sprawdzone.</h>
                         {% endif %}
-                        <a href="/admin/posts/report/{{ report.id }}" style="padding-top:5px;">
+                        <a href="/admin/posts/report_comment/{{ report.id }}" style="padding-top:5px;">
                             <button class="add-comment btn btn-info btn-xs" style="font-size: 110%;" >
                                 edytuj
                             </button>

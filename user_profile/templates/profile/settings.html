@@ -2,14 +2,28 @@
 
 {% block profile_content %}
 
-    Reputacja: {{ reputation }}
+    <h2>Reputacja: {{ reputation }}</h2>
 
     <hr>
 
-    Imie: {{ current_user.username }}
+    Nazwa użytkownika: {{ current_user.username }}
+    <br><br>
+
+    Imie: {{ current_user.first_name }}
+    <br><br>
+
+
+    Nazwisko: {{ current_user.last_name }}
 
     <hr>
 
-    Trzeba zrobic formularz tutaj
 
+
+    Ostatnie logowanie: {{ current_user.last_login }}
+    <br><br>
+
+    Data rejestracji: {{ current_user.date_joined }}
+    <br><br>
+
+    <hr>
 {% endblock %}

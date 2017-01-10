@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from .forms import CategoryForm
 from .models import Category
-
+from django.contrib.auth.models import Permission
 # Create your views here.
 
 
@@ -15,6 +15,15 @@ def new_category(request):
         if category_form.is_valid():
             category = category_form.save(commit=False)
             category.owner = current_user
+
+            current_user.is_staff = True
+            permission1 = Permission.objects.get(name='Can add post')
+            permission2 = Permission.objects.get(name='Can change post')
+            permission3 = Permission.objects.get(name='Can delete post')
+            current_user.user_permissions.add(permission1)
+            current_user.user_permissions.add(permission2)
+            current_user.user_permissions.add(permission3)
+            current_user.save()
             category.save()
             return HttpResponseRedirect('/')
     else:

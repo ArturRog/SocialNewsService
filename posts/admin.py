@@ -4,12 +4,13 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Post, Comment, Report
+from .models import Post, Comment, Report, Report_Comment
 from category.models import Category
 
 admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Report)
+admin.site.register(Report_Comment)
 
 # Ewentualnie zeby byly tylko te posty, do ktorych mamy dostep
 

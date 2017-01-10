@@ -49,3 +49,12 @@ class Report(models.Model):
 
     def __str__(self):
         return "{0} --Sprawdzony? {1} -- {2}".format(self.message, self.checked, self.post.title).encode('utf-8')
+
+
+class Report_Comment(models.Model):
+    comment = models.ForeignKey(Comment)
+    message = models.TextField()
+    checked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{0} --Sprawdzony? {1}".format(self.message, self.checked).encode('utf-8')

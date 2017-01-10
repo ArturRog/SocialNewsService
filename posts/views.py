@@ -8,7 +8,7 @@ from posts.forms import PostForm, CommentForm
 from posts.models import Post, Comment, Report
 
 from django.shortcuts import render, redirect
-from posts.models import Post, Comment, Category, Report
+from posts.models import Post, Comment, Category, Report, Report_Comment
 from django.contrib.auth.models import User
 
 
@@ -122,7 +122,21 @@ def make_report(request, post_id, message):
     return redirect("/")
 
 
+def make_report_comment(request, comment_id, message):
+    report = Report_Comment()
+    report.comment = Comment.objects.get(id=comment_id)
+    report.message = MESSAGES[message]
+    report.save()
+    return redirect("/")
+
+
 def show_reports(request):
     reports = Report.objects.all()
     context = {'reports': reports}
     return render(request, "reports/reports.html", context)
+
+
+def show_reports_comment(request):
+    reports = Report_Comment.objects.all()
+    context = {'reports': reports}
+    return render(request, "reports/reports_comment.html", context)
