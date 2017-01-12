@@ -42,11 +42,11 @@
                         {% endif %}
 
 
-                        <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenu1"
+                        <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenuP{{ post.id }}"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             zgłoś
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuP{{ post.id }}">
                             <li><a href="{% url 'report' post.id 1 %} ">Spam</a></li>
                             <li><a href="{% url 'report' post.id 2 %}">Obrazliwe tresci</a></li>
                             <li><a href="{% url 'report' post.id 3 %}">Nieprawdziwa informacja</a></li>

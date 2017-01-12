@@ -11,7 +11,7 @@
 
                 <div class="comment-body panel-body">
                     <div>{{ comment.body }}</div>
-                    <div class="pull-right">
+                    <div class="pull-right dropdown">
 
                         {% if comment.child_number > 0 %}
                             <button class="show-sub-comments btn btn-info btn-xs ">
@@ -21,17 +21,21 @@
                         <button class="add-sub-comment btn btn-info btn-xs">
                             odpowiedz
                         </button>
-                        <button class="btn btn-warning btn-xs dropdown" type="button" id="zglos"
+                        <button class="btn btn-warning btn-xs dropdown" type="button" id="dropdownMenuC{{ comment.id }}"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             zgłoś
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="zglos">
+                        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenuC{{ comment.id }}">
                             <li><a href="{% url 'report_comment' comment.id 1 %} ">Spam</a></li>
                             <li><a href="{% url 'report_comment' comment.id 2 %}">Obrazliwe tresci</a></li>
                             <li><a href="{% url 'report_comment' comment.id 3 %}">Nieprawdziwa informacja</a></li>
                             <li><a href="{% url 'report_comment' comment.id 4 %}">Propagowanie przemocy</a></li>
                         </ul>
                     </div>
+                    <div class="clearfix"></div>
+
+
+
                 </div>
 
             </div>
