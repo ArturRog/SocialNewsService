@@ -1,7 +1,7 @@
 # SocialNewsService
 Python in the enterprise Project
 
-[![Heroku](http://socialnewsservice.herokuapp.com/)]
+[![Heroku](https://heroku-badge.herokuapp.com/?app=heroku-badge)](http://socialnewsservice.herokuapp.com/)
 
 [![Build Status](https://travis-ci.org/ArturRog/SocialNewsService.svg?branch=master)](https://travis-ci.org/ArturRog/SocialNewsService)
 
