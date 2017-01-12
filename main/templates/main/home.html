@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <script type="text/javascript" src="{% static 'js/posts.js' %}"></script>
 
     <nav class="navbar navbar-default ">
         <div class="container">
@@ -12,11 +11,8 @@
                 <li><a href="  {{ request.get_full_path }}cat-miesiac ">Miesiąc</a></li>
                 <li><a></a></li>
                 <li><a href="  {{ request.get_full_path }}cat-najnowsze ">Najnowsze</a></li>
-
-
             </ul>
         </div>
-
     </nav>
 
     {% if category.description|length > 0 %}
