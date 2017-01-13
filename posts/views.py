@@ -5,11 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from posts.forms import PostForm, CommentForm
-from posts.models import Post, Comment, Report
-
-from django.shortcuts import render, redirect
-from posts.models import Post, Comment, Category, Report, Report_Comment
-from django.contrib.auth.models import User
+from posts.models import Post, Comment, Report, Report_Comment
 
 
 @login_required
@@ -46,26 +42,7 @@ def edit_post(request, post_id):
     return render(request, "posts/new_post.html", {'form': post_form})
 
 
-def show_posts(request, page_number=None, category=None):
-    posts = Post.objects.all()
-    for post in posts:
-        post.comments_number = count_comments(post)
-    context = {'posts': posts}
-    return render(request, "posts/posts.html", context)
-
-
-def filtered_posts_context(page_number=None, filter_object=None):
-    posts = Post.objects.all()
-    if filter_object is not None:
-        posts = posts.filter(filter_object)
-    for post in posts:
-        post.comments_number = count_comments(post)
-
-    context = {'posts': posts}
-    return context
-
-
-@login_required()
+@login_required
 def new_comment(request, post_id, comment_id=None):
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, request.FILES)
@@ -114,28 +91,32 @@ MESSAGES = {
 }
 
 
+@login_required
 def make_report(request, post_id, message):
     report = Report()
     report.post = Post.objects.get(id=post_id)
     report.message = MESSAGES[message]
     report.save()
-    return redirect("/")
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@login_required
 def make_report_comment(request, comment_id, message):
     report = Report_Comment()
     report.comment = Comment.objects.get(id=comment_id)
     report.message = MESSAGES[message]
     report.save()
-    return redirect("/")
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@login_required
 def show_reports(request):
     reports = Report.objects.all()
     context = {'reports': reports}
     return render(request, "reports/reports.html", context)
 
 
+@login_required
 def show_reports_comment(request):
     reports = Report_Comment.objects.all()
     context = {'reports': reports}

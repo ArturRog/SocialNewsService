@@ -3,6 +3,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.utils.timezone import utc
+
 from posts.models import Post, PostVotes
 from category.models import Category
 from user_profile.models import UserProfile
@@ -10,15 +12,17 @@ from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
 from posts.views import count_comments
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
 def post_filter(posts, filtr):
+    now = datetime.now().utcnow().replace(tzinfo=utc)
     if filtr == 'dzien':
-        posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=1)).order_by('-votes')
+        posts = posts.filter(publication_date__gte=now - timedelta(days=1)).order_by('-votes')
     elif filtr == 'tydzien':
-        posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=7)).order_by('-votes')
+        posts = posts.filter(publication_date__gte=now - timedelta(days=7)).order_by('-votes')
     elif filtr == 'miesiac':
-        posts = posts.filter(publication_date__gte=datetime.now() - timedelta(days=30)).order_by('-votes')
+        posts = posts.filter(publication_date__gte=now - timedelta(days=30)).order_by('-votes')
     elif filtr == 'najnowsze':
         posts = posts.order_by('-publication_date')
     return posts
@@ -35,7 +39,7 @@ def home(request, filtr=None):
     return render(request, "main/home.html", context)
 
 
-@login_required()
+@login_required
 def upvote_news(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     voting_user = request.user
@@ -59,7 +63,7 @@ def upvote_news(request, post_id):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-@login_required()
+@login_required
 def downvote_news(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     voting_user = request.user

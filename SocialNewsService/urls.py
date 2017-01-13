@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from user_profile.views import profile, my_categories, add_to_favorites, my_comments, my_settings, my_posts
-from posts.views import new_post, show_comments, new_comment, show_posts, show_reports, make_report, edit_post, \
+from posts.views import new_post, show_comments, new_comment, show_reports, make_report, edit_post, \
     make_report_comment, show_reports_comment
 from category.views import new_category, search_category
 
@@ -48,9 +48,6 @@ urlpatterns = [
     url(r'^reports/$', show_reports, name='reports'),
     url(r'^reports_comment/$', show_reports_comment, name='reports_comment'),
 
-    url(r'^posts/show_posts/$', show_posts, name='show_posts'),
-    url(r'^posts/show_posts/(?P<page_number>[0-9]+)/$', show_posts, name='show_posts'),
-
     url(r'^comments/show-comments/(?P<post_id>[0-9]+)/$', show_comments, name='show_comments'),
     url(r'^comments/show-comments/(?P<post_id>[0-9]+)/(?P<comment_id>[0-9]+)/$', show_comments,
         name='show_comments'),
@@ -64,6 +61,8 @@ urlpatterns = [
     url(r'^downvote_news/(?P<post_id>\d+)/$', downvote_news, name='downvote_news'),
     url(r'^category/(?P<pk>\d+)/$', category_filter, name='category_filter'),
     url(r'^category/(?P<pk>\d+)/cat-(?P<filtr>\w+)/$', category_filter, name='category_filter'),
+
+
 
 ]
 
