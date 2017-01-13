@@ -1,21 +1,19 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from .forms import CategoryForm
 from .models import Category
 from django.contrib.auth.models import Permission
-# Create your views here.
 
 
+@login_required
 def new_category(request):
-    current_user = request.user
-    if not current_user.is_authenticated:
-        return HttpResponseNotAllowed(['GET', 'POST'])
     if request.method == 'POST':
         category_form = CategoryForm(request.POST, request.FILES)
         if category_form.is_valid():
             category = category_form.save(commit=False)
+            current_user = request.user
             category.owner = current_user
-
             current_user.is_staff = True
             permission1 = Permission.objects.get(name='Can add post')
             permission2 = Permission.objects.get(name='Can change post')
