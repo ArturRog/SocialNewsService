@@ -12,7 +12,6 @@ from .forms import RegisterForm
 from django.shortcuts import get_object_or_404
 from posts.views import count_comments
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
 
 def post_filter(posts, filtr):
