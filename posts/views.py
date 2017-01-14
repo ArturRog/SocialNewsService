@@ -25,6 +25,8 @@ def new_post(request):
 @login_required
 def edit_post(request, post_id):
     post = Post.objects.get(id=post_id)
+    if post.author != request.user:
+        return HttpResponseRedirect('/')
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():

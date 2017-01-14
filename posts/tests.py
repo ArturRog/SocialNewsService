@@ -50,7 +50,7 @@ class PostTestCase(TestCase):
         self.assertEqual(post.original_url, self.post_form['original_url'])
 
     def test_edit_post_user_not_logged_in(self):
-        old_category = Category.objects.create(category_name='old category', description='old category', owner=self.user)
+        old_category = Category.objects.create(category_name='old_cat', description='old_cat', owner=self.user)
         post = Post.objects.create(title='old_title', body='old_body', author=self.user, category=old_category,
                                    original_url='https://docs.djangoproject.com/en/1.10/topics/testing/old_url/')
         self.client.post(self.edit_post_url.format(post.id), self.post_form)
@@ -59,6 +59,19 @@ class PostTestCase(TestCase):
         self.assertNotEqual(post.body, self.post_form['body'])
         self.assertNotEqual(post.category.id, self.post_form['category'])
         self.assertNotEqual(post.original_url, self.post_form['original_url'])
+
+    def test_edit_post_user_not_author(self):
+        old_category = Category.objects.create(category_name='old_cat', description='old_cat', owner=self.user)
+        not_author = User.objects.create_user('notauthor', 'not@author.com', 'iamnotauthor')
+        self.client.force_login(not_author)
+        post = Post.objects.create(title='old_title', body='old_body', author=self.user, category=old_category,
+                                   original_url='https://docs.djangoproject.com/en/1.10/topics/testing/old_url/')
+        post = Post.objects.get(id=post.id)
+        self.assertNotEqual(post.title, self.post_form['title'])
+        self.assertNotEqual(post.body, self.post_form['body'])
+        self.assertNotEqual(post.category.id, self.post_form['category'])
+        self.assertNotEqual(post.original_url, self.post_form['original_url'])
+
 
 
 class CommentTestCase(TestCase):
