@@ -52,7 +52,7 @@ def new_comment(request, post_id, comment_id=None):
             comment.post = Post.objects.filter(id=post_id)[0]
             comment.parent = None if comment_id is None else Comment.objects.filter(id=comment_id)[0]
             comment.save()
-            return HttpResponseRedirect('/')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
         comment_form = CommentForm()
     context = {

@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.utils.timezone import utc
 
 from category.models import Category
+from main.views import top_categories
 from posts.models import Post
 from datetime import datetime, timedelta
 
@@ -134,3 +135,22 @@ class CategoryFilterTestCase(TestCase):
     def test_category_filter(self):
         response = self.client.get(self.category_filter_url)
         self.assertEqual(list(response.context['posts']), self.posts)
+
+
+class TopCategoriesTestCase(TestCase):
+
+    def setUp(self):
+        author = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        cat1 = Category.objects.create(category_name='cat1', description='desc1', owner=author)
+        cat2 = Category.objects.create(category_name='cat2', description='desc2', owner=author)
+        cat3 = Category.objects.create(category_name='cat3', description='desc3', owner=author)
+        for i in range(4):
+            Post.objects.create(title='title{}'.format(i), body='body{}'.format(i), author=author, category=cat1,
+                                original_url='https://docs.djangoproject.com/en/1.10/topics/testing/1')
+        for i in range(6):
+            Post.objects.create(title='title{}'.format(i), body='body{}'.format(i), author=author, category=cat3,
+                                original_url='https://docs.djangoproject.com/en/1.10/topics/testing/1')
+        self.categories_in_order = (cat3, cat1, cat2)
+
+    def test_top_categories(self):
+        self.assertEqual(top_categories(), self.categories_in_order)
