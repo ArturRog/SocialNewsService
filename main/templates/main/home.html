@@ -17,9 +17,9 @@
 
     {% if category.description|length > 0 %}
 
-        <div style="background-color: rgb(248,248,248);text-align: center;">
+        <div style="background-color: rgb(248,248,248);text-align: center; margin-bottom: 30px">
 
-            <h3 class="panel-heading" style="display: inline-block">{{ category.description }}</h3>
+            <h3 class="panel-heading" style="display: inline-block">{{ category.category_name }}</h3>
 
             {% if user.is_authenticated %}
                 <a href="{% url 'add_to_favorites' category.id %}">
@@ -30,6 +30,8 @@
                 </h2>
                 </a>
             {% endif %}
+
+            <div class="panel-body">{{ category.description }}</div>
 
         </div>
         <script>

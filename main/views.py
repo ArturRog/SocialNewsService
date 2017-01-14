@@ -34,7 +34,11 @@ def home(request, filtr=None):
         request.path = "/"
     for post in posts:
         post.comments_number = count_comments(post)
-    context = {'posts': posts}
+    context = {
+        'top_categories': top_categories(),
+        'posts': posts
+    }
+
     return render(request, "main/home.html", context)
 
 
@@ -101,7 +105,8 @@ def category_filter(request, pk, filtr=None):
     context = {
         'category': category,
         'posts': posts,
-        'is_favorite': is_favorite
+        'is_favorite': is_favorite,
+        'top_categories': top_categories(),
     }
     return render(request, "main/home.html", context)
 
@@ -118,3 +123,12 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, "main/register.html", {'form': form})
+
+
+def top_categories(number=5):
+    categories = list()
+    for category in Category.objects.all():
+        count = Post.objects.filter(category=category).count()
+        categories.append((category, count))
+    categories.sort(key=lambda tup: tup[1], reverse=True)
+    return zip(*categories[0:number])[0]
