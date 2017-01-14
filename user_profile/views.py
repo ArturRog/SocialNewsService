@@ -9,6 +9,7 @@ from user_profile.models import UserProfile
 
 # Create your views here.
 
+@login_required
 def menu_context(request):
     current_user = request.user
     categories = Category.objects.filter(owner=current_user)
@@ -40,20 +41,22 @@ def my_categories(request, pk):
     return render(request, "profile/posts.html", context)
 
 
-@login_required()
+@login_required
 def my_comments(request):
     return render(request, "profile/comments.html", menu_context(request))
 
 
+@login_required
 def my_settings(request):
     return render(request, "profile/settings.html", menu_context(request))
 
 
+@login_required
 def my_posts(request):
     return render(request, "profile/posts.html", menu_context(request))
 
 
-@login_required()
+@login_required
 def add_to_favorites(request, pk):
     current_user = request.user
     current_user_profile = UserProfile.objects.get(user=current_user)

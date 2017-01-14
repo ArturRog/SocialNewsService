@@ -116,5 +116,5 @@ def register(request):
             user_profile.save()
             return redirect('login')
     else:
-        form = RegisterForm
+        form = RegisterForm()
     return render(request, "main/register.html", {'form': form})
