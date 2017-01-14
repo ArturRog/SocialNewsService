@@ -94,7 +94,10 @@ def category_filter(request, pk, filtr=None):
         request.path = "/category/" + pk + '/'
     for post in posts:
         post.comments_number = count_comments(post)
-    is_favorite = category in UserProfile.objects.filter(user=request.user).first().favorite_categories.all()
+    if request.user.is_authenticated:
+        is_favorite = category in UserProfile.objects.filter(user=request.user).first().favorite_categories.all()
+    else:
+        is_favorite = False
     context = {
         'category': category,
         'posts': posts,
