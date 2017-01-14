@@ -21,6 +21,7 @@
 
             <h3 class="panel-heading" style="display: inline-block">{{ category.description }}</h3>
 
+            {% if user.is_authenticated %}
                 <a href="{% url 'add_to_favorites' category.id %}">
                 <h2 id="menu-toggle" style="display: inline-block;">
                     <span href="{% url 'login' %}"
@@ -28,6 +29,7 @@
                           aria-hidden="true"></span>
                 </h2>
                 </a>
+            {% endif %}
 
         </div>
         <script>
