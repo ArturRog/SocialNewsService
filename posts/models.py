@@ -39,8 +39,7 @@ class Comment(models.Model):
     publication_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return 'Autor: {0} id {1}: "{2}" >> {3}'.format(self.author, self.id, self.body, self.parent)\
-            .encode('utf-8', errors='replace')
+        return 'Autor: {0} Treść: "{1}"'.format(self.author,self.body).encode('utf-8', errors='replace')
 
 
 class Report(models.Model):
