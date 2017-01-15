@@ -15,4 +15,4 @@ class UserProfile(models.Model):
     favorite_categories = models.ManyToManyField(Category)
 
     def __str__(self):
-        return '{0} {1}'.format(self.user.username, self.favorite_categories.all())
+        return '{0} {1}'.format(self.user.username, self.favorite_categories.all()).encode('utf-8', errors='replace')

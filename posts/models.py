@@ -22,7 +22,7 @@ class Post(models.Model):
 
     def __str__(self):
         return "{0} -- {1} -- {2}".format(self.title, self.author, self.publication_date.strftime("%d/%m/%y")).encode(
-            'utf-8')
+            'utf-8', errors='replace')
 
 
 class PostVotes(models.Model):
@@ -39,7 +39,8 @@ class Comment(models.Model):
     publication_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return 'Autor: {0} id {1}: "{2}" >> {3}'.format(self.author, self.id, self.body, self.parent)
+        return 'Autor: {0} id {1}: "{2}" >> {3}'.format(self.author, self.id, self.body, self.parent).encode('utf-8',
+                                                                                                             errors='replace')
 
 
 class Report(models.Model):
@@ -48,7 +49,8 @@ class Report(models.Model):
     checked = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{0} --Sprawdzony? {1} -- {2}".format(self.message, self.checked, self.post.title).encode('utf-8')
+        return "{0} --Sprawdzony? {1} -- {2}".format(self.message, self.checked, self.post.title).encode('utf-8',
+                                                                                                         errors='replace')
 
 
 class Report_Comment(models.Model):
@@ -57,4 +59,4 @@ class Report_Comment(models.Model):
     checked = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{0} --Sprawdzony? {1}".format(self.message, self.checked).encode('utf-8')
+        return "{0} --Sprawdzony? {1}".format(self.message, self.checked).encode('utf-8', errors='replace')
