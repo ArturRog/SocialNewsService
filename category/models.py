@@ -14,4 +14,4 @@ class Category(models.Model):
                               default=None)  # kto zalozyl, dla podstawowych None
 
     def __str__(self):
-        return "{0} - {1}".format(self.category_name, self.description).encode('ascii', errors='replace')
+        return "{0} - {1}".format(self.category_name, self.description).encode('utf-8', errors='replace')
